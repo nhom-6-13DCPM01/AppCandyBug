@@ -5,35 +5,23 @@ import androidx.annotation.Nullable;
 import java.util.Date;
 
 public class Order {
-    private int idHoaDon;
     private int idAccount;
     private Date dateCreate;
     private String status;
     private String address;
     private Date deliveryDate;
     private int SDT;
-    private Account account;
 
     public Order() {
     }
 
-    public Order(int idHoaDon, int idAccount, Date dateCreate, String status, String address, Date deliveryDate, int SDT, Account account) {
-        this.idHoaDon = idHoaDon;
+    public Order(int idAccount, Date dateCreate, String status, String address, Date deliveryDate, int SDT) {
         this.idAccount = idAccount;
         this.dateCreate = dateCreate;
         this.status = status;
         this.address = address;
         this.deliveryDate = deliveryDate;
         this.SDT = SDT;
-        this.account = account;
-    }
-
-    public int getIdHoaDon() {
-        return idHoaDon;
-    }
-
-    public void setIdHoaDon(int idHoaDon) {
-        this.idHoaDon = idHoaDon;
     }
 
     public int getIdAccount() {
@@ -82,13 +70,5 @@ public class Order {
 
     public void setSDT(int SDT) {
         this.SDT = SDT;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 }
