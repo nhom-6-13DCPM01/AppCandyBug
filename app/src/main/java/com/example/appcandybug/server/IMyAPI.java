@@ -1,6 +1,7 @@
 package com.example.appcandybug.server;
 import com.example.appcandybug.model.Account;
 import com.example.appcandybug.model.Category;
+import com.example.appcandybug.model.Order;
 import com.example.appcandybug.model.Product;
 
 import java.util.ArrayList;
@@ -23,4 +24,7 @@ public interface IMyAPI {
 
     @GET("api-getCategory")
     Call<ArrayList<Category>> getListCate();
+
+    @POST("createOrder")
+    Call<String> createOrder(@Body Order order);
 }

@@ -5,63 +5,63 @@ import androidx.annotation.Nullable;
 import java.util.Date;
 
 public class Order {
-    private int idAccount;
-    private Date dateCreate;
-    private String status;
-    private String address;
-    private Date deliveryDate;
+    private int IdAcc;
+    private Date DateCreate;
+    private String Status;
+    private String Address;
+    private Date DeliveryDate;
     private int SDT;
 
     public Order() {
     }
 
-    public Order(int idAccount, Date dateCreate, String status, String address, Date deliveryDate, int SDT) {
-        this.idAccount = idAccount;
-        this.dateCreate = dateCreate;
-        this.status = status;
-        this.address = address;
-        this.deliveryDate = deliveryDate;
+    public Order(int IdAcc, Date DateCreate, String Status, String Address, Date DeliveryDate, int SDT) {
+        this.IdAcc = IdAcc;
+        this.DateCreate = DateCreate;
+        this.Status = Status;
+        this.Address = Address;
+        this.DeliveryDate = DeliveryDate;
         this.SDT = SDT;
     }
 
-    public int getIdAccount() {
-        return idAccount;
+    public int getIdAcc() {
+        return IdAcc;
     }
 
-    public void setIdAccount(int idAccount) {
-        this.idAccount = idAccount;
+    public void setIdAcc(int idAcc) {
+        IdAcc = idAcc;
     }
 
     public Date getDateCreate() {
-        return dateCreate;
+        return DateCreate;
     }
 
     public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
+        DateCreate = dateCreate;
     }
 
     public String getStatus() {
-        return status;
+        return Status;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        Status = status;
     }
 
     public String getAddress() {
-        return address;
+        return Address;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        Address = address;
     }
 
     public Date getDeliveryDate() {
-        return deliveryDate;
+        return DeliveryDate;
     }
 
     public void setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate = deliveryDate;
+        DeliveryDate = deliveryDate;
     }
 
     public int getSDT() {

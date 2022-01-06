@@ -12,9 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCandyBug"
         android:usesCleartextTraffic="true" >
-        <activity
-            android:name=".activity.OrderActivity"
-            android:exported="false" />
+        <activity android:name=".activity.OrderActivity" />
         <activity android:name=".activity.Index" />
         <activity android:name=".activity.MainActivity" >
             <intent-filter>
