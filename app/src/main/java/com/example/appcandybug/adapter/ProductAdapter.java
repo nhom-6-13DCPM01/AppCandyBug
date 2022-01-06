@@ -1,0 +1,69 @@
+package com.example.appcandybug.adapter;
+
+import android.content.Context;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.appcandybug.R;
+import com.example.appcandybug.model.Product;
+import com.squareup.picasso.Picasso;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ItemHolder> {
+    Context context;
+    List<Product> products;
+
+    public ProductAdapter(Context context, List<Product> products) {
+        this.context = context;
+        this.products = products;
+    }
+
+    @NonNull
+    @Override
+    public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.row_new_product,null);
+        ItemHolder itemHolder = new ItemHolder(view);
+
+        return itemHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
+        Product product = products.get(position);
+        holder.txtNameProduct.setText(product.getName());
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        holder.txtPriceProduct.setText("Giá : " + decimalFormat.format(product.getPrice())+ " Đ");
+        Picasso.with(context).load(product.getImage())
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .error(R.drawable.ic_launcher_background)
+                .into(holder.imageProduct);
+    }
+
+    @Override
+    public int getItemCount() {
+        return products.size();
+    }
+
+    public class ItemHolder extends RecyclerView.ViewHolder{
+        public ImageView imageProduct;
+        public TextView txtNameProduct, txtPriceProduct;
+
+        public ItemHolder(View itemView){
+            super(itemView);
+            imageProduct = (ImageView) itemView.findViewById(R.id.imageview_Product);
+            txtNameProduct = (TextView) itemView.findViewById(R.id.txt_NameProduct);
+            txtPriceProduct = (TextView) itemView.findViewById(R.id.txt_PriceProduct);
+        }
+    }
+
+
+}

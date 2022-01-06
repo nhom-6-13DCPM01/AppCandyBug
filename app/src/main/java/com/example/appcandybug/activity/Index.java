@@ -1,24 +1,30 @@
 package com.example.appcandybug.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcandybug.R;
 import com.example.appcandybug.adapter.CategoryAdapter;
+import com.example.appcandybug.adapter.ProductAdapter;
 import com.example.appcandybug.model.Category;
-import com.example.appcandybug.modeldao.CategoryDAO;
+import com.example.appcandybug.server.CheckConnection;
 import com.example.appcandybug.server.IMyAPI;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
@@ -38,15 +44,92 @@ public class Index extends AppCompatActivity {
     ListView listview_index;
     DrawerLayout drawerlayout_index;
     ArrayList<Category> listCate;
+    List<com.example.appcandybug.model.Product> listNewProduct;
     CategoryAdapter categoryAdapter;
+    ProductAdapter productAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
+
         anhXa();
-        actionBar();
-        actionViewFliper();
-        getListCate();
+        if(CheckConnection.haveNetworkConnection(getApplicationContext())){
+            actionBar();
+            actionViewFliper();
+            getListCate();
+            getNewProduct();
+            catchOnitemListView();
+        }else {
+            CheckConnection.ShowToast_Short(getApplicationContext(),"Hãy kết nối mạng");
+            finish();
+        }
+
+
+    }
+
+    private void catchOnitemListView() {
+        listview_index.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        if(CheckConnection.haveNetworkConnection(getApplicationContext())){
+                            Intent intent = new Intent(Index.this, ProductActivity.class);
+                            intent.putExtra("idCategory",listCate.get(position).getId());
+                            intent.putExtra("nameCate",listCate.get(position).getName());
+                            startActivity(intent);
+                        }else {
+                            CheckConnection.ShowToast_Short(getApplicationContext(),"Vui lòng kiểm tra kết nối");
+                        }
+                        drawerlayout_index.closeDrawer(GravityCompat.START);
+                        break;
+                    case 1:
+                        if(CheckConnection.haveNetworkConnection(getApplicationContext())){
+                            Intent intent = new Intent(Index.this, ProductActivity.class);
+                            intent.putExtra("idCategory",listCate.get(position).getId());
+                            intent.putExtra("nameCate",listCate.get(position).getName());
+                            startActivity(intent);
+                        }else {
+                            CheckConnection.ShowToast_Short(getApplicationContext(),"Vui lòng kiểm tra kết nối");
+                        }
+                        drawerlayout_index.closeDrawer(GravityCompat.START);
+                        break;
+                    case 2:
+                        if(CheckConnection.haveNetworkConnection(getApplicationContext())){
+                            Intent intent = new Intent(Index.this, ProductActivity.class);
+                            intent.putExtra("idCategory",listCate.get(position).getId());
+                            intent.putExtra("nameCate",listCate.get(position).getName());
+                            startActivity(intent);
+                        }else {
+                            CheckConnection.ShowToast_Short(getApplicationContext(),"Vui lòng kiểm tra kết nối");
+                        }
+                        drawerlayout_index.closeDrawer(GravityCompat.START);
+                        break;
+                    case 3:
+                        if(CheckConnection.haveNetworkConnection(getApplicationContext())){
+                            Intent intent = new Intent(Index.this, ProductActivity.class);
+                            intent.putExtra("idCategory",listCate.get(position).getId());
+                            intent.putExtra("nameCate",listCate.get(position).getName());
+                            startActivity(intent);
+                        }else {
+                            CheckConnection.ShowToast_Short(getApplicationContext(),"Vui lòng kiểm tra kết nối");
+                        }
+                        drawerlayout_index.closeDrawer(GravityCompat.START);
+                        break;
+                    case 4:
+                        if(CheckConnection.haveNetworkConnection(getApplicationContext())){
+                            Intent intent = new Intent(Index.this, ProductActivity.class);
+                            intent.putExtra("idCategory",listCate.get(position).getId());
+                            intent.putExtra("nameCate",listCate.get(position).getName());
+                            startActivity(intent);
+                        }else {
+                            CheckConnection.ShowToast_Short(getApplicationContext(),"Vui lòng kiểm tra kết nối");
+                        }
+                        drawerlayout_index.closeDrawer(GravityCompat.START);
+                        break;
+                }
+            }
+        });
     }
 
     private void anhXa(){
@@ -56,7 +139,10 @@ public class Index extends AppCompatActivity {
         navigationview_index = (NavigationView) findViewById(R.id.navigationview_index);
         listview_index = (ListView) findViewById(R.id.listview_index);
         drawerlayout_index = (DrawerLayout) findViewById(R.id.drawerlayout_index);
-        listCate = CategoryDAO.getInstance().getListCate();
+        recyclerview_index.setAdapter(productAdapter);
+        recyclerview_index.setHasFixedSize(true);
+        recyclerview_index.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+
     }
 
     private void actionBar(){
@@ -105,7 +191,7 @@ public class Index extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<Category>> call, Response<ArrayList<Category>> response) {
                 listCate = response.body();
-                Log.e("List",listCate.size()+"");
+                if(listCate != null)
                 for(int i = 0 ;i < listCate.size();i++){
                     listCate.get(i).setIcon(listIcon.get(i));
                 }
@@ -117,4 +203,24 @@ public class Index extends AppCompatActivity {
             }
         });
     }
+
+
+    public void getNewProduct(){
+        IMyAPI.iMyAPI.getNewProduct().enqueue(new Callback<List<com.example.appcandybug.model.Product>>() {
+            @Override
+            public void onResponse(Call<List<com.example.appcandybug.model.Product>> call, Response<List<com.example.appcandybug.model.Product>> response) {
+                if(response.body()!=null){
+                    listNewProduct = response.body();
+                    productAdapter = new ProductAdapter(getApplicationContext(),listNewProduct);
+                    recyclerview_index.setAdapter(productAdapter);
+                }
+            }
+            @Override
+            public void onFailure(Call<List<com.example.appcandybug.model.Product>> call, Throwable t) {
+                Toast.makeText(Index.this, "in failure", Toast.LENGTH_SHORT).show();
+                Log.d("onFailure: ",t.getMessage());
+            }
+        });
+    }
+
 }
