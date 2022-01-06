@@ -9,7 +9,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface IMyAPI {
     IMyAPI iMyAPI = RetrofitClient.getInstance().create(IMyAPI.class);;
@@ -18,9 +21,17 @@ public interface IMyAPI {
     @POST("api-login")
     Call<String> login(@Body Account  account);
 
+    @Headers("Accept: application/json")
     @GET("api/Product")
     Call<List<Product>> getListProduct();
 
+    @Headers("Accept: application/json")
     @GET("api-getCategory")
     Call<ArrayList<Category>> getListCate();
+
+    @GET("api-getNewProduct")
+    Call<List<Product>> getNewProduct();
+
+    @GET("api-getProbyCate/{idCate}")
+    Call<List<Product>> getProbyCate(@Path("idCate") int idCate,@Query("page") int page);
 }
