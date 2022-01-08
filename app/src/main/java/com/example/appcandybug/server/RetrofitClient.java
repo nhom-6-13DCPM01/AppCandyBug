@@ -9,11 +9,12 @@ public class RetrofitClient {
     private static Retrofit instance;
     public static Retrofit getInstance(){
         if(instance==null)
+        {
             instance = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.7/")
+                    .baseUrl("http://192.168.1.254/")
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
+        }
         return instance;
     }
 }

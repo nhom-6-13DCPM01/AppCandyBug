@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.appcandybug" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.appcandybug">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,10 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCandyBug"
-        android:usesCleartextTraffic="true" >
-        <activity android:name=".activity.OrderActivity" />
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activity.DetailProduct"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ProductActivity"
+            android:exported="false" />
         <activity android:name=".activity.Index" />
-        <activity android:name=".activity.MainActivity" >
+        <activity
+            android:name=".activity.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
