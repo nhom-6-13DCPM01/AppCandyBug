@@ -19,6 +19,8 @@
         <activity
             android:name=".activity.ProductActivity"
             android:exported="false" />
+        android:usesCleartextTraffic="true" >
+        <activity android:name=".activity.OrderActivity" />
         <activity android:name=".activity.Index" />
         <activity
             android:name=".activity.MainActivity"

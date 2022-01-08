@@ -21,11 +21,9 @@ public interface IMyAPI {
     @POST("api-login")
     Call<String> login(@Body Account  account);
 
-    @Headers("Accept: application/json")
     @GET("api/Product")
     Call<List<Product>> getListProduct();
 
-    @Headers("Accept: application/json")
     @GET("api-getCategory")
     Call<ArrayList<Category>> getListCate();
 
@@ -34,4 +32,7 @@ public interface IMyAPI {
 
     @GET("api-getProbyCate/{idCate}")
     Call<List<Product>> getProbyCate(@Path("idCate") int idCate,@Query("page") int page);
+
+    @POST("createOrder")
+    Call<String> createOrder(@Body Order order);
 }
