@@ -1,21 +1,26 @@
 package com.example.appcandybug.model;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.Locale;
 
-public class Product {
+public class Product implements Serializable {
     private int Id;
     private String Name;
     private String Category;
-    private DecimalFormat Price;
+    private Double Price;
     private int Quantity;
     private int Discount;
     private String Image;
 
+
+
+    private String Description;
+
     public Product() {
     }
 
-    public Product(int id, String name, String category, DecimalFormat price, int quantity, int discount, String image) {
+    public Product(int id, String name, String category, Double price, int quantity, int discount, String image ,String description) {
         Id = id;
         Name = name;
         Category = category;
@@ -23,6 +28,7 @@ public class Product {
         Quantity = quantity;
         Discount = discount;
         Image = image;
+        Description = description;
     }
 
     public int getId() {
@@ -49,11 +55,11 @@ public class Product {
         Category = category;
     }
 
-    public DecimalFormat getPrice() {
+    public Double getPrice() {
         return Price;
     }
 
-    public void setPrice(DecimalFormat price) {
+    public void setPrice(Double price) {
         Price = price;
     }
 
@@ -79,5 +85,13 @@ public class Product {
 
     public void setImage(String image) {
         Image = image;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
     }
 }
