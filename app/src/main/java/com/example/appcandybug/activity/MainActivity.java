@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         Toast.makeText(MainActivity.this,response.body().toString(),Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MainActivity.this,Index.class);
+                        Intent intent = new Intent(MainActivity.this, Index.class);
                         startActivity(intent);
                     }
 

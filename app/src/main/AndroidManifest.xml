@@ -14,6 +14,9 @@
         android:theme="@style/Theme.AppCandyBug"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.OrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.DetailProduct"
             android:exported="false" />
         <activity
