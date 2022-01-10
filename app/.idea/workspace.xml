@@ -14,28 +14,30 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17e6dc16-cc89-4173-9de1-a815792d13b4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/activity/DetailProduct.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/activity/ProductActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/adapter/CandyAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/adapter/ProductAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/server/CheckConnection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-v24/new_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/activity_candy.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/activity_detail_product.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/progressbar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/row_list_candy.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/row_new_product.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/AndroidManifest.xml" afterDir="false" />
+    <list default="true" id="17e6dc16-cc89-4173-9de1-a815792d13b4" name="Default Changelist" comment="Continue...">
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-hdpi/ic_user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-hdpi/iconlogout.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-ldpi/ic_user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-ldpi/iconlogout.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-mdpi/ic_user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-mdpi/iconlogout.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xhdpi/ic_user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xhdpi/iconlogout.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/ic_user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/iconlogout.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxxhdpi/ic_user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxxhdpi/iconlogout.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_user.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/activity/Index.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/activity/Index.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/model/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/modeldao/CategoryDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/server/IMyAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/server/IMyAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/server/RetrofitClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/server/RetrofitClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/activity/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/activity/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/activity/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/appcandybug/activity/Register.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/side_nav_bar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/drawable/side_nav_bar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/nav_header_navigationheader.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/nav_header_navigationheader.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,19 +113,33 @@
     <property name="DEBUGGER_ID" value="Auto" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
+    <property name="algorithm" value="Scalr" />
+    <property name="android-custom-viewC:/Users/tuong/AppData/Local/Android/Sdk/sources/android-31/android/view/View.java_SELECTED" value="View" />
+    <property name="android-custom-viewC:/Users/tuong/AppData/Local/Android/Sdk/sources/android-31/android/view/View.java_View_DIMENSIONS" value="1080&#10;1920" />
     <property name="com.intellij.openapi.externalSystem.service.settings.ExternalSystemGroupConfigurable" value="ALL" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="destination" value="DRAWABLE" />
+    <property name="format" value="PNG" />
+    <property name="lastFolderRoot" value="$PROJECT_DIR$/src/main/res/drawable/ic_user.png" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/res/drawable/ic_user.png" />
+    <property name="method" value="Automatic" />
     <property name="project.structure.last.edited" value="Variables" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="resolutions" value="XXHDPI&#10;LDPI&#10;MDPI&#10;HDPI&#10;XXXHDPI&#10;XHDPI" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="sourceResolution" value="MDPI" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\CloneAndroid\app\src\main\res\drawable" />
       <recent name="D:\CloneAndroid\app\src\main\res\drawable-v24" />
     </key>
     <key name="android.template.-897002832">
+      <recent name="com.example.appcandybug.activity" />
+    </key>
+    <key name="android.template.-485290427">
       <recent name="com.example.appcandybug.activity" />
     </key>
     <key name="android.template.1019546286">
@@ -199,6 +215,21 @@
       <option name="presentableId" value="Default" />
       <updated>1640941416708</updated>
     </task>
+    <task id="LOCAL-00001" summary="Continue...">
+      <created>1641638184444</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1641638184445</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Commit one">
+      <created>1641807385231</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1641807385231</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -206,7 +237,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="pnt" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -215,6 +258,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Continue..." />
+    <MESSAGE value="Commit one" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit one" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

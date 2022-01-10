@@ -20,13 +20,14 @@ public interface IMyAPI {
 
 
     @POST("api-login")
-    Call<String> login(@Body Account  account);
+    Call<Account> login(@Body Account  account);
 
-    @Headers("Accept: application/json")
+    @POST("api-register")
+    Call<Account> register(@Body Account  account);
+
     @GET("api/Product")
     Call<List<Product>> getListProduct();
 
-    @Headers("Accept: application/json")
     @GET("api-getCategory")
     Call<ArrayList<Category>> getListCate();
 
