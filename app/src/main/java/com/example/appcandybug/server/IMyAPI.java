@@ -20,7 +20,10 @@ public interface IMyAPI {
 
 
     @POST("api-login")
-    Call<String> login(@Body Account  account);
+    Call<Account> login(@Body Account  account);
+
+    @POST("api-register")
+    Call<Account> register(@Body Account  account);
 
     @GET("api/Product")
     Call<List<Product>> getListProduct();

@@ -48,11 +48,44 @@
         android:layout_gravity="start"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ListView
-            android:id="@+id/listview_index"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ListView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/nav_header_navigationheader"/>
+
+            <ListView
+                android:id="@+id/listview_index"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </ListView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:text="Setting"/>
+            <LinearLayout
+                android:layout_marginTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/iconlogout">
+                </ImageView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:text="Logout">
+
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
 
