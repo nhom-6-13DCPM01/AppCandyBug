@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/CloneAndroid/app/src/main/res/drawable/side_nav_bar.xml" value="0.37864583333333335" />
         <entry key="..\:/CloneAndroid/app/src/main/res/layout/activity_cake.xml" value="0.1" />
         <entry key="..\:/CloneAndroid/app/src/main/res/layout/activity_candy.xml" value="0.1" />
         <entry key="..\:/CloneAndroid/app/src/main/res/layout/activity_cookie.xml" value="0.1" />
@@ -16,8 +17,9 @@
         <entry key="..\:/CloneAndroid/app/src/main/res/layout/content_navigationheader.xml" value="0.11018518518518519" />
         <entry key="..\:/CloneAndroid/app/src/main/res/layout/item_menu.xml" value="0.25" />
         <entry key="..\:/CloneAndroid/app/src/main/res/layout/nav_header_index.xml" value="0.11018518518518519" />
-        <entry key="..\:/CloneAndroid/app/src/main/res/layout/nav_header_navigationheader.xml" value="0.11018518518518519" />
+        <entry key="..\:/CloneAndroid/app/src/main/res/layout/nav_header_navigationheader.xml" value="0.33" />
         <entry key="..\:/CloneAndroid/app/src/main/res/layout/row_list_candy.xml" value="0.25" />
+        <entry key="..\:/CloneAndroid/app/src/main/res/layout/row_list_category.xml" value="0.3625" />
         <entry key="..\:/CloneAndroid/app/src/main/res/layout/row_new_product.xml" value="0.25" />
         <entry key="..\:/CloneAndroid/app/src/main/res/menu/activity_main_drawer.xml" value="0.1619047619047619" />
         <entry key="..\:/CloneAndroid/app/src/main/res/menu/navigationheader.xml" value="0.24947916666666667" />

@@ -66,24 +66,38 @@
                 android:textSize="18sp"
                 android:text="Setting"/>
             <LinearLayout
-                android:layout_marginTop="25dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/iconlogout">
-                </ImageView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:text="Logout">
+                android:id="@+id/linear_logout"
+                android:layout_height="match_parent"
+                android:weightSum="10"
+                android:gravity="center"
+                android:layout_width="match_parent">
+                <LinearLayout
+                    android:layout_weight="3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@drawable/iconlogout"
+                        android:layout_margin="5dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp">
+                    </ImageView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_weight="7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_margin="5dp"
+                        android:textSize="23dp"
+                        android:text="Logout"
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-                </TextView>
+                    </TextView>
+                </LinearLayout>
             </LinearLayout>
+
         </LinearLayout>
 
     </com.google.android.material.navigation.NavigationView>

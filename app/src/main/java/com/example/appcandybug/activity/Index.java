@@ -9,7 +9,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -23,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appcandybug.R;
 import com.example.appcandybug.adapter.CategoryAdapter;
 import com.example.appcandybug.adapter.ProductAdapter;
+import com.example.appcandybug.model.Account;
 import com.example.appcandybug.model.Category;
 import com.example.appcandybug.server.CheckConnection;
 import com.example.appcandybug.server.IMyAPI;
@@ -47,24 +50,44 @@ public class Index extends AppCompatActivity {
     List<com.example.appcandybug.model.Product> listNewProduct;
     CategoryAdapter categoryAdapter;
     ProductAdapter productAdapter;
+    LinearLayout layout_logout;
+    Account account_login;
+    TextView txt_login,txt_email_login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
-
         anhXa();
+        loadData();
         if(CheckConnection.haveNetworkConnection(getApplicationContext())){
             actionBar();
             actionViewFliper();
             getListCate();
             getNewProduct();
             catchOnitemListView();
+            logout();
         }else {
             CheckConnection.ShowToast_Short(getApplicationContext(),"Hãy kết nối mạng");
             finish();
         }
+    }
 
+    private void loadData() {
+        account_login = getIntent().getParcelableExtra("Account");
+        if(account_login!=null)
+        {
+            txt_login.setText(account_login.getUsername());
+            txt_email_login.setText(account_login.getEmail());
+        }
+    }
 
+    private void logout() {
+        layout_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void catchOnitemListView() {
@@ -142,7 +165,9 @@ public class Index extends AppCompatActivity {
         recyclerview_index.setAdapter(productAdapter);
         recyclerview_index.setHasFixedSize(true);
         recyclerview_index.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-
+        layout_logout = findViewById(R.id.linear_logout);
+        txt_login = findViewById(R.id.txt_login);
+        txt_email_login = findViewById(R.id.txt_email_login);
     }
 
     private void actionBar(){
