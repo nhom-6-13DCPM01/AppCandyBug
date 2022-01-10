@@ -37,6 +37,10 @@ public interface IMyAPI {
     @GET("api-getProbyCate/{idCate}")
     Call<List<Product>> getProbyCate(@Path("idCate") int idCate,@Query("page") int page);
 
+    //Phần của thịnh
+    @GET("getMaxIdOrder")
+    Call<Integer> getMaxIdOrder();
+
     @POST("createOrder")
     Call<String> createOrder(@Body Order order);
 }
