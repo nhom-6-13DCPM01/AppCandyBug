@@ -2,39 +2,78 @@ package com.example.appcandybug.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.appcandybug.R;
-import com.example.appcandybug.model.Order;
-import com.example.appcandybug.server.IMyAPI;
-
-import java.util.Date;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class OrderActivity extends AppCompatActivity {
+    Button btnOrder, btnConfirm, btnCancel;
+    EditText edtPhone, edtAdress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        Order order = new Order(1, new Date(), "CHƯA DUYỆT", "", new Date(), 1234);
+        anhXaOrderActivity();
+        thucHienOrderActivity();
 
-        IMyAPI.iMyAPI.createOrder(order).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Toast.makeText(OrderActivity.this,response.body().toString(),Toast.LENGTH_SHORT).show();
-            }
 
+    }
+
+    private void anhXaOrderActivity(){
+        btnOrder = (Button) findViewById(R.id.buttonPickOrder);
+    }
+
+    private void thucHienOrderActivity(){
+        btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(OrderActivity.this,"404 HTTP not Found",Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                orderDialog();
             }
+        });
+    }
+
+    private void anhXaDialog(Dialog dialog){
+        btnConfirm = (Button) dialog.findViewById(R.id.buttonConfirm);
+        btnCancel = (Button) dialog.findViewById(R.id.buttonCancel);
+        edtPhone = (EditText) dialog.findViewById(R.id.editTextPhone);
+        edtAdress = (EditText) dialog.findViewById(R.id.editTextAdress);
+    }
+
+    private void orderDialog(){
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setContentView(R.layout.dialog_order);
+
+        anhXaDialog(dialog);
+        thucHienDialog(dialog);
+
+        dialog.show();
+    }
+
+    private void thucHienDialog(Dialog dialog){
+        btnConfirm.setOnClickListener(v -> {
+            if(edtPhone.getText().toString().isEmpty() && edtAdress.getText().toString().isEmpty())
+                Toast.makeText(OrderActivity.this, "Xin bạn hãy nhập thông tin", Toast.LENGTH_SHORT).show();
+            else{
+                int phone = new Integer(edtPhone.getText().toString());
+                String adress = edtAdress.getText().toString();
+                Toast.makeText(OrderActivity.this, adress + " " + phone, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnCancel.setOnClickListener(v -> {
+            dialog.dismiss();
         });
     }
 }

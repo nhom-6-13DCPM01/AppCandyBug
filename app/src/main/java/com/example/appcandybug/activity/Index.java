@@ -1,13 +1,17 @@
 package com.example.appcandybug.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,17 +26,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appcandybug.Other.NgayGiao;
 import com.example.appcandybug.R;
 import com.example.appcandybug.adapter.CategoryAdapter;
 import com.example.appcandybug.adapter.ProductAdapter;
 import com.example.appcandybug.model.Account;
 import com.example.appcandybug.model.Category;
+import com.example.appcandybug.model.Order;
 import com.example.appcandybug.server.CheckConnection;
 import com.example.appcandybug.server.IMyAPI;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -53,6 +60,11 @@ public class Index extends AppCompatActivity {
     LinearLayout layout_logout;
     Account account_login;
     TextView txt_login,txt_email_login;
+
+    //Phần thuộc tính của thịnh
+    Button btnConfirmOrder, btnCancelOrder;
+    EditText edtPhoneOrder, edtAdressOrder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +82,14 @@ public class Index extends AppCompatActivity {
             CheckConnection.ShowToast_Short(getApplicationContext(),"Hãy kết nối mạng");
             finish();
         }
+    }
+
+    //Phần ánh xạ của thịnh
+    private void anhXaDialog(Dialog dialog){
+        btnConfirmOrder = (Button) dialog.findViewById(R.id.buttonConfirm);
+        btnCancelOrder = (Button) dialog.findViewById(R.id.buttonCancel);
+        edtPhoneOrder = (EditText) dialog.findViewById(R.id.editTextPhone);
+        edtAdressOrder = (EditText) dialog.findViewById(R.id.editTextAdress);
     }
 
     private void loadData() {
@@ -245,6 +265,81 @@ public class Index extends AppCompatActivity {
                 Toast.makeText(Index.this, "in failure", Toast.LENGTH_SHORT).show();
                 Log.d("onFailure: ",t.getMessage());
             }
+        });
+    }
+
+    //Phần phương thức của thịnh
+    private void orderDialog(){
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setContentView(R.layout.dialog_order);
+
+        anhXaDialog(dialog);
+        thucHienDialog(dialog);
+
+        dialog.show();
+    }
+
+    private void createOrder(int maHoaDon){
+        int phone = new Integer(edtPhoneOrder.getText().toString());
+        String adress = edtAdressOrder.getText().toString();
+        Date ngayTao = new Date();
+        NgayGiao ngayGiao = new NgayGiao(ngayTao, 3, 8, 22, 100, 30);
+
+        Order order = new Order(1, ngayTao, "CHƯA DUYỆT", adress, ngayGiao.tinhNgayGiaoHang(maHoaDon), phone);
+
+        IMyAPI.iMyAPI.createOrder(order).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(!response.isSuccessful())
+                    Toast.makeText(Index.this, "Something went wrong in createOrder at isSuccess", Toast.LENGTH_SHORT).show();
+
+                if(response.body() != null)
+                    Toast.makeText(Index.this, response.body(), Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(Index.this, "Something went wrong in createOrder at respone null", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void layMaHoaDonLonNhat(){
+        IMyAPI.iMyAPI.getMaxIdOrder().enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(!response.isSuccessful())
+                    Toast.makeText(Index.this, "Somethinh went wrong in layHoaDon at isSuccess", Toast.LENGTH_SHORT).show();
+
+                if(response.body() != null) {
+                    int maHoaDon = response.body();
+                    createOrder(maHoaDon + 1);
+                }
+                else
+                    Toast.makeText(Index.this, "Somethinh went wrong in layHoaDon at respone null", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Toast.makeText(Index.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void thucHienDialog(Dialog dialog) {
+        btnConfirmOrder.setOnClickListener(v -> {
+            if (edtPhoneOrder.getText().toString().isEmpty() && edtAdressOrder.getText().toString().isEmpty())
+                Toast.makeText(Index.this, "Xin bạn hãy nhập thông tin", Toast.LENGTH_SHORT).show();
+            else
+                layMaHoaDonLonNhat();
+        });
+
+        btnCancelOrder.setOnClickListener(v -> {
+            dialog.dismiss();
         });
     }
 

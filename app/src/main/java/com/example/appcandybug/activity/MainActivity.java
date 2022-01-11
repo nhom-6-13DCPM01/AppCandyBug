@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<Account> call, Throwable t) {
-                        Toast.makeText(MainActivity.this,"404 HTTP not Found",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"404 HTTP not Found" + t.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
                 }
