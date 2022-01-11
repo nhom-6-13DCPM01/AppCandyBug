@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import java.util.Date;
 
 public class Order {
+    private int Id;
     private int IdAcc;
     private Date DateCreate;
     private String Status;
@@ -71,4 +72,8 @@ public class Order {
     public void setSDT(int SDT) {
         this.SDT = SDT;
     }
+
+    public int getId() { return Id; }
+
+    public void setId(int id) { Id = id; }
 }
