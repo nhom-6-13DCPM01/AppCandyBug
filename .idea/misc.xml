@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/admin/source/repos/AppCandyBug/app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.1" />
+        <entry key="..\:/Users/admin/source/repos/AppCandyBug/app/src/main/res/drawable/ic_launcher_background.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/admin/source/repos/AppCandyBug/app/src/main/res/layout/activity_candy.xml" value="0.1" />
         <entry key="..\:/Users/admin/source/repos/AppCandyBug/app/src/main/res/layout/activity_detail_product.xml" value="0.1" />
         <entry key="..\:/Users/admin/source/repos/AppCandyBug/app/src/main/res/layout/activity_index.xml" value="0.11" />
