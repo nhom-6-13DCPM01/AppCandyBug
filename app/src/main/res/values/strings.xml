@@ -20,9 +20,14 @@
     <string name="invalid_displayname" translatable="false">Pleace enter your name</string>
     <string name="title_activity_navigationheader" translatable="false">navigationheader</string>
     <string name="invalid_username" translatable="false">Pleace enter username</string>
-    <string name="adress">Adress</string>
+    <string name="address">Address</string>
     <string name="phone_number">Phone number</string>
     <string name="order">Order</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="order_info">Order Info</string>
+    <string name="shopping_cart">Shopping Cart</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="name">Name</string>
+    <string name="date_create">Date create</string>
 </resources>
