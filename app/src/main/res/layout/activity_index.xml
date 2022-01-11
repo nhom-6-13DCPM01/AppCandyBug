@@ -18,7 +18,8 @@
             android:background="#F46C36"
             app:title="Home"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"></androidx.appcompat.widget.Toolbar>
+            android:layout_height="?android:attr/actionBarSize"
+            app:menu="@menu/menu_option"></androidx.appcompat.widget.Toolbar>
         <ViewFlipper
             android:id="@+id/viewlipper_index"
             android:layout_width="match_parent"

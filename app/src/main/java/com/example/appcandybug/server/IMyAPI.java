@@ -41,6 +41,9 @@ public interface IMyAPI {
     @GET("getMaxIdOrder")
     Call<Integer> getMaxIdOrder();
 
+    @GET("getTongSoLuongOrderChuaDuyet")
+    Call<Integer> getTongSoLuongOrder();
+
     @POST("createOrder")
-    Call<String> createOrder(@Body Order order);
+    Call<Order> createOrder(@Body Order order);
 }

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -62,8 +65,12 @@ public class Index extends AppCompatActivity {
     TextView txt_login,txt_email_login;
 
     //Phần thuộc tính của thịnh
+    //View
     Button btnConfirmOrder, btnCancelOrder;
     EditText edtPhoneOrder, edtAdressOrder;
+    //Thuộc tính cần cho phần tự động đặt ngày giao
+    private int soLuongDonTon, maHoaDonNgayDat;
+    private Order hoaDonVuaThem = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,14 +89,6 @@ public class Index extends AppCompatActivity {
             CheckConnection.ShowToast_Short(getApplicationContext(),"Hãy kết nối mạng");
             finish();
         }
-    }
-
-    //Phần ánh xạ của thịnh
-    private void anhXaDialog(Dialog dialog){
-        btnConfirmOrder = (Button) dialog.findViewById(R.id.buttonConfirm);
-        btnCancelOrder = (Button) dialog.findViewById(R.id.buttonCancel);
-        edtPhoneOrder = (EditText) dialog.findViewById(R.id.editTextPhone);
-        edtAdressOrder = (EditText) dialog.findViewById(R.id.editTextAdress);
     }
 
     private void loadData() {
@@ -268,57 +267,69 @@ public class Index extends AppCompatActivity {
         });
     }
 
+
+
+    //Phần ánh xạ của thịnh
+    private void anhXaDialog(Dialog dialog){
+        btnConfirmOrder = (Button) dialog.findViewById(R.id.buttonConfirm);
+        btnCancelOrder = (Button) dialog.findViewById(R.id.buttonCancel);
+        edtPhoneOrder = (EditText) dialog.findViewById(R.id.editTextPhone);
+        edtAdressOrder = (EditText) dialog.findViewById(R.id.editTextAdress);
+    }
+
     //Phần phương thức của thịnh
+    //Tạo menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_option, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
     private void orderDialog(){
+        //Chỉnh sửa dialog
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(false);
         dialog.setContentView(R.layout.dialog_order);
 
+        //Ánh xạ và thực hiện chức năng của dialog khi có sự kiện phù hợp
         anhXaDialog(dialog);
         thucHienDialog(dialog);
 
+        //Hiển thị dialog
         dialog.show();
     }
 
-    private void createOrder(int maHoaDon){
-        int phone = new Integer(edtPhoneOrder.getText().toString());
-        String adress = edtAdressOrder.getText().toString();
-        Date ngayTao = new Date();
-        NgayGiao ngayGiao = new NgayGiao(ngayTao, 3, 8, 22, 100, 30);
-
-        Order order = new Order(1, ngayTao, "CHƯA DUYỆT", adress, ngayGiao.tinhNgayGiaoHang(maHoaDon), phone);
-
-        IMyAPI.iMyAPI.createOrder(order).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if(!response.isSuccessful())
-                    Toast.makeText(Index.this, "Something went wrong in createOrder at isSuccess", Toast.LENGTH_SHORT).show();
-
-                if(response.body() != null)
-                    Toast.makeText(Index.this, response.body(), Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(Index.this, "Something went wrong in createOrder at respone null", Toast.LENGTH_SHORT).show();
+    //Sự kiện này tạo ra để phục vụ cho onOptionsItemSelected
+    private void suKienChonItemMenu(int id){
+        if(hoaDonVuaThem == null){
+            if(id == R.id.menuOrder){
+                orderDialog();
             }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            if(id == R.id.menuChildSettingDeliveryDate){
 
             }
-        });
+        }
     }
 
-    private void layMaHoaDonLonNhat(){
+    //Sư kiện chọn item menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        this.suKienChonItemMenu(item.getItemId());
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void getMaHoaDonLonNhat(){
+        //Lấy dữ liệu trên web về
         IMyAPI.iMyAPI.getMaxIdOrder().enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(!response.isSuccessful())
                     Toast.makeText(Index.this, "Somethinh went wrong in layHoaDon at isSuccess", Toast.LENGTH_SHORT).show();
-
-                if(response.body() != null) {
-                    int maHoaDon = response.body();
-                    createOrder(maHoaDon + 1);
-                }
+                else if(response.body() != null)
+                    maHoaDonNgayDat = response.body();
                 else
                     Toast.makeText(Index.this, "Somethinh went wrong in layHoaDon at respone null", Toast.LENGTH_SHORT).show();
             }
@@ -330,17 +341,77 @@ public class Index extends AppCompatActivity {
         });
     }
 
+    private void getTongSoOrderChuaDuyet(){
+        //Lấy dữ liệu trên web về
+        IMyAPI.iMyAPI.getTongSoLuongOrder().enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(!response.isSuccessful())
+                    Toast.makeText(Index.this, "Somethinh went wrong in getSoLuongOrder at isSuccess", Toast.LENGTH_SHORT).show();
+                else if(response.body() != null)
+                    soLuongDonTon = response.body();
+                else
+                    Toast.makeText(Index.this, "Somethinh went wrong in layHoaDon at respone null", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Toast.makeText(Index.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void createOrder(int idAcc, int ngayDuKien, int gioBatDauGiao, int gioKetThucGiao, int maHoaDon, int soLuongNhanVien){
+        //Truyền dữ liệu từ view về các biến
+        int phone = new Integer(edtPhoneOrder.getText().toString());
+        String adress = edtAdressOrder.getText().toString();
+
+        //Tạo ngày tạo và ngày giao
+        //Ngày giao được tạo ở lớp NgayGiao trong thư Mục Other
+        Date ngayTao = new Date();
+        NgayGiao ngayGiao = new NgayGiao(ngayTao, ngayDuKien, gioBatDauGiao, gioKetThucGiao, soLuongDonTon, soLuongNhanVien);
+
+        //Tạo đơn hàng
+        Order order = new Order(idAcc, ngayTao, "CHƯA DUYỆT", adress, ngayGiao.tinhNgayGiaoHang(maHoaDon), phone);
+
+        //Đẩy dữ liệu lên web và lấy về
+        IMyAPI.iMyAPI.createOrder(order).enqueue(new Callback<Order>() {
+            @Override
+            public void onResponse(Call<Order> call, Response<Order> response) {
+                if(!response.isSuccessful())
+                    Toast.makeText(Index.this, "Something went wrong in createOrder at isSuccess", Toast.LENGTH_SHORT).show();
+                else if(response.body() != null){
+                    Order order = response.body();
+                    hoaDonVuaThem = order;
+                }
+                else
+                    Toast.makeText(Index.this, "Something went wrong in createOrder at respone null", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Order> call, Throwable t) {
+                Toast.makeText(Index.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void thucHienDialog(Dialog dialog) {
         btnConfirmOrder.setOnClickListener(v -> {
             if (edtPhoneOrder.getText().toString().isEmpty() && edtAdressOrder.getText().toString().isEmpty())
                 Toast.makeText(Index.this, "Xin bạn hãy nhập thông tin", Toast.LENGTH_SHORT).show();
-            else
-                layMaHoaDonLonNhat();
+            else{
+                if(hoaDonVuaThem == null){
+                    createOrder(1, 3, 8, 22, maHoaDonNgayDat, 30);
+                    Toast.makeText(Index.this, "createOrder is Success" + hoaDonVuaThem.getDeliveryDate(), Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+                else
+                    Toast.makeText(Index.this, "Bạn đã có đơn hàng rồi. Hãy cứ mua sắm đi!", Toast.LENGTH_SHORT).show();
+            }
         });
 
         btnCancelOrder.setOnClickListener(v -> {
             dialog.dismiss();
         });
     }
-
 }
