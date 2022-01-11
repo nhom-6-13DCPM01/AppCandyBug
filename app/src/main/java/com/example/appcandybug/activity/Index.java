@@ -66,18 +66,9 @@ public class Index extends AppCompatActivity {
     TextView txt_login,txt_email_login;
     SearchView search_view_index;
 
-    //Phần thuộc tính của create order
-    //View
-    Button btnConfirmOrder, btnCancelOrder;
-    EditText edtPhoneOrder, edtAdressOrder;
     //Thuộc tính cần cho phần tự động đặt ngày giao
     private int soLuongDonTon, maHoaDonNgayDat;
     private Order hoaDonVuaThem = null;
-
-    //Phần thuộc tính của cancel order
-    //View
-    Button btnConfirmCancelOrder, btnCancelCancelOrder;
-    TextView txtName, txtDateCreate, txtPhone, txtAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,16 +294,6 @@ public class Index extends AppCompatActivity {
         });
     }
 
-
-
-    //Phần ánh xạ của create order
-    private void anhXaDialog(Dialog dialog){
-        btnConfirmOrder = (Button) dialog.findViewById(R.id.buttonConfirmCreateOrder);
-        btnCancelOrder = (Button) dialog.findViewById(R.id.buttonCancelCreateOrder);
-        edtPhoneOrder = (EditText) dialog.findViewById(R.id.editTextPhone);
-        edtAdressOrder = (EditText) dialog.findViewById(R.id.editTextAddress);
-    }
-
     //Phần phương thức của create order
     //Tạo menu
     @Override
@@ -320,38 +301,6 @@ public class Index extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_option, menu);
 
         return super.onCreateOptionsMenu(menu);
-    }
-
-    //tạo dialog create order
-    private void createOrderDialog(){
-        //Chỉnh sửa dialog
-        Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setContentView(R.layout.dialog_order);
-
-        //Ánh xạ và thực hiện chức năng của dialog khi có sự kiện phù hợp
-        anhXaDialog(dialog);
-        thucHienDialog(dialog);
-
-        //Hiển thị dialog
-        dialog.show();
-    }
-
-    //tạo dialog cancel order
-    private void cancelOrderDialog(){
-        //Chỉnh sửa dialog
-        Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setContentView(R.layout.dialog_cancel_order);
-
-        //Ánh xạ và thực hiện chức năng của dialog khi có sự kiện phù hợp
-        anhXaDialog(dialog);
-        thucHienDialog(dialog);
-
-        //Hiển thị dialog
-        dialog.show();
     }
 
     //Sự kiện này tạo ra để phục vụ cho onOptionsItemSelected
@@ -374,9 +323,53 @@ public class Index extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Phần thuộc tính của create order
+    //View
+    Button btnConfirmOrder, btnCancelOrder;
+    EditText edtPhoneOrder, edtAdressOrder;
+
+    //Phần ánh xạ của create order
+    private void anhXaDialog(Dialog dialog){
+        btnConfirmOrder = (Button) dialog.findViewById(R.id.buttonConfirmCreateOrder);
+        btnCancelOrder = (Button) dialog.findViewById(R.id.buttonCancelCreateOrder);
+        edtPhoneOrder = (EditText) dialog.findViewById(R.id.editTextPhone);
+        edtAdressOrder = (EditText) dialog.findViewById(R.id.editTextAddress);
+    }
+
+    //tạo dialog create order
+    private void createOrderDialog(){
+        //Chỉnh sửa dialog
+        Dialog dialog = new Dialog(Index.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setContentView(R.layout.dialog_order);
+
+        //Ánh xạ và thực hiện chức năng của dialog khi có sự kiện phù hợp
+        anhXaDialog(dialog);
+        thucHienDialog(dialog);
+
+        //Hiển thị dialog
+        dialog.show();
+    }
+
+    //tạo dialog cancel order
+    private void cancelOrderDialog(){
+        //Chỉnh sửa dialog
+        Dialog dialog = new Dialog(Index.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setContentView(R.layout.dialog_cancel_order);
+
+        //Ánh xạ và thực hiện chức năng của dialog khi có sự kiện phù hợp
+        anhXaDiaLogCancel(dialog);
+        thucHienDialog(dialog);
+
+        //Hiển thị dialog
+        dialog.show();
+    }
 
     //Các phương thức cần để thực hiện create order
-    //Lấy mã hóa đơn lớn nhất haha
+    //Lấy mã hóa đơn lớn nhất
     private void getMaHoaDonLonNhat(){
         //Lấy dữ liệu trên web về
         IMyAPI.iMyAPI.getMaxIdOrder().enqueue(new Callback<Integer>() {
@@ -424,13 +417,10 @@ public class Index extends AppCompatActivity {
         int phone = new Integer(edtPhoneOrder.getText().toString());
         String adress = edtAdressOrder.getText().toString();
 
-        //Tạo ngày tạo và ngày giao
-        //Ngày giao được tạo ở lớp NgayGiao trong thư Mục Other
+        //Tạo ngày tạo
         Date ngayTao = new Date();
-        NgayGiao ngayGiao = new NgayGiao(ngayTao, ngayDuKien, gioBatDauGiao, gioKetThucGiao, soLuongDonTon, soLuongNhanVien);
-
         //Tạo đơn hàng
-        Order order = new Order(idAcc, ngayTao, "CHƯA DUYỆT", adress, ngayGiao.tinhNgayGiaoHang(maHoaDon), phone);
+        Order order = new Order(idAcc, ngayTao, "CHƯA DUYỆT", adress, null, phone);
 
         //Đẩy dữ liệu lên web và lấy về
         IMyAPI.iMyAPI.createOrder(order).enqueue(new Callback<Order>() {
@@ -448,7 +438,7 @@ public class Index extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Order> call, Throwable t) {
-                Toast.makeText(Index.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Index.this, "Failed: " + t.getCause().toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -460,7 +450,6 @@ public class Index extends AppCompatActivity {
             else{
                 if(hoaDonVuaThem == null){
                     createOrder(account_login.getId(), 5, 8, 22, maHoaDonNgayDat + 1, 30);
-                    Toast.makeText(Index.this, "createOrder is Success" + hoaDonVuaThem.getDeliveryDate(), Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
                 else
@@ -471,6 +460,21 @@ public class Index extends AppCompatActivity {
         btnCancelOrder.setOnClickListener(v -> {
             dialog.dismiss();
         });
+    }
+
+    //Phần thuộc tính của cancel order
+    //View
+    Button btnConfirmCancelOrder, btnCancelCancelOrder;
+    TextView txtName, txtDateCreate, txtPhone, txtAddress;
+
+    //Phần ánh xạ
+    private void anhXaDiaLogCancel(Dialog dialog){
+        btnConfirmCancelOrder = (Button) dialog.findViewById(R.id.buttonConfirmCancel);
+        btnCancelCancelOrder = (Button) dialog.findViewById(R.id.buttonCancelCancel);
+        txtName = (TextView) dialog.findViewById(R.id.textViewName);
+        txtDateCreate = (TextView) dialog.findViewById(R.id.textViewDateCreate);
+        txtPhone = (TextView) dialog.findViewById(R.id.textViewPhoneNumber);
+        txtAddress = (TextView) dialog.findViewById(R.id.textViewAddress);
     }
 
     //Các phương thức cần cho cancel order
@@ -491,7 +495,19 @@ public class Index extends AppCompatActivity {
         });
     }
 
-    private void thucHienCancelDialog(){
-
+    private void thucHienCancelDialog(Dialog dialog){
+        btnConfirmCancelOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteOrder();
+                dialog.cancel();
+            }
+        });
+        btnCancelCancelOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
     }
 }

@@ -20,7 +20,7 @@
         app:layout_constraintGuide_percent="0.8" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewTitleCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/order"
@@ -85,20 +85,20 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewPhoneNumber" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonConfirmCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/confirm"
         android:textColor="#FA61FF00"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCancelCancel"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonCancelCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/cancel"
@@ -107,6 +107,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintStart_toEndOf="@+id/buttonConfirmCancel"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 </androidx.constraintlayout.widget.ConstraintLayout>
