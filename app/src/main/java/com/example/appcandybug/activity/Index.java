@@ -23,6 +23,7 @@ import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -63,6 +64,7 @@ public class Index extends AppCompatActivity {
     LinearLayout layout_logout;
     Account account_login;
     TextView txt_login,txt_email_login;
+    SearchView search_view_index;
 
     //Phần thuộc tính của create order
     //View
@@ -89,11 +91,39 @@ public class Index extends AppCompatActivity {
             getListCate();
             getNewProduct();
             catchOnitemListView();
+            search();
             logout();
         }else {
             CheckConnection.ShowToast_Short(getApplicationContext(),"Hãy kết nối mạng");
             finish();
         }
+    }
+
+    private void search() {
+        search_view_index.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent intent = new Intent(Index.this,SearchPro.class);
+                intent.putExtra("KeySearch",query);
+                search_view_index.setQuery("", false);
+                search_view_index.setIconified(true);
+                startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!search_view_index.isIconified()){
+            search_view_index.setIconified(true);
+        }
+        super.onBackPressed();
     }
 
     private void loadData() {
@@ -192,6 +222,7 @@ public class Index extends AppCompatActivity {
         layout_logout = findViewById(R.id.linear_logout);
         txt_login = findViewById(R.id.txt_login);
         txt_email_login = findViewById(R.id.txt_email_login);
+        search_view_index = findViewById(R.id.search_view_index);
     }
 
     private void actionBar(){

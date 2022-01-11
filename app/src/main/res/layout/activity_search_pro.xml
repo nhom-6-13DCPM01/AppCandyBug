@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.SearchPro"
+    android:background="@drawable/side_nav_bar"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -15,9 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_scrollFlags="scroll|enterAlways"
-        android:theme="@style/ThemeOverlay.AppCompat.Light"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
+        android:background="@color/white">
+        <ImageButton
+            android:id="@+id/back_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:src="@drawable/ic_back">
+        </ImageButton>
         <androidx.appcompat.widget.SearchView
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"

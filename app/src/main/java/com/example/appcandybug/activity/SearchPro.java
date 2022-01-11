@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.appcandybug.R;
@@ -28,17 +30,41 @@ public class SearchPro extends AppCompatActivity {
     RecyclerView recycleview_search;
     List<Product> list;
     SearchAdapter searchAdapter;
-
+    SearchView searchView;
+    ImageButton back_ic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_pro);
         anhXa();
         setUpSearchview();
+        checkKey();
+        setBack();
+
+    }
+
+    private void setBack() {
+        back_ic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!searchView.isIconified()){
+                    searchView.setIconified(true);
+                    return;
+                }
+                finish();
+            }
+        });
+    }
+
+    private void checkKey() {
+        String key = getIntent().getStringExtra("KeySearch");
+        if(key!=null){
+            searchView.setQuery(key,true);
+            searchView.setIconified(false);
+        }
     }
 
     private void setUpSearchview() {
-        final SearchView searchView = findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -80,5 +106,15 @@ public class SearchPro extends AppCompatActivity {
         recycleview_search = findViewById(R.id.recycleview_search);
         recycleview_search.setHasFixedSize(true);
         recycleview_search.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+        searchView = findViewById(R.id.search_view);
+        back_ic = findViewById(R.id.back_ic);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!searchView.isIconified()){
+            searchView.setIconified(true);
+        }
+        super.onBackPressed();
     }
 }

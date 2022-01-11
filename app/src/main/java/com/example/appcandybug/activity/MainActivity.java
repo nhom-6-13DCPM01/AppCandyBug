@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<Account> call, Response<Account> response) {
                         if(response.body()!=null){
                             Account accountLogin = response.body();
-                            Intent intent = new Intent(MainActivity.this,SearchPro.class);
+                            Intent intent = new Intent(MainActivity.this,Index.class);
                             intent.putExtra("Account", accountLogin);
                             startActivity(intent);
                             return;

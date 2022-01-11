@@ -19,7 +19,13 @@
                 app:title="Home"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                app:menu="@menu/menu_option"></androidx.appcompat.widget.Toolbar>
+                app:menu="@menu/menu_option">
+                <androidx.appcompat.widget.SearchView
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:id="@+id/search_view_index"
+                    app:queryHint="Search a product ?"/>
+            </androidx.appcompat.widget.Toolbar>
             <ViewFlipper
                 android:id="@+id/viewlipper_index"
                 android:layout_width="match_parent"
