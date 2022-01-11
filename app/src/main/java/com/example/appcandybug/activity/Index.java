@@ -64,13 +64,18 @@ public class Index extends AppCompatActivity {
     Account account_login;
     TextView txt_login,txt_email_login;
 
-    //Phần thuộc tính của thịnh
+    //Phần thuộc tính của create order
     //View
     Button btnConfirmOrder, btnCancelOrder;
     EditText edtPhoneOrder, edtAdressOrder;
     //Thuộc tính cần cho phần tự động đặt ngày giao
     private int soLuongDonTon, maHoaDonNgayDat;
     private Order hoaDonVuaThem = null;
+
+    //Phần thuộc tính của cancel order
+    //View
+    Button btnConfirmCancelOrder, btnCancelCancelOrder;
+    TextView txtName, txtDateCreate, txtPhone, txtAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -269,15 +274,15 @@ public class Index extends AppCompatActivity {
 
 
 
-    //Phần ánh xạ của thịnh
+    //Phần ánh xạ của create order
     private void anhXaDialog(Dialog dialog){
-        btnConfirmOrder = (Button) dialog.findViewById(R.id.buttonConfirm);
-        btnCancelOrder = (Button) dialog.findViewById(R.id.buttonCancel);
+        btnConfirmOrder = (Button) dialog.findViewById(R.id.buttonConfirmCreateOrder);
+        btnCancelOrder = (Button) dialog.findViewById(R.id.buttonCancelCreateOrder);
         edtPhoneOrder = (EditText) dialog.findViewById(R.id.editTextPhone);
-        edtAdressOrder = (EditText) dialog.findViewById(R.id.editTextAdress);
+        edtAdressOrder = (EditText) dialog.findViewById(R.id.editTextAddress);
     }
 
-    //Phần phương thức của thịnh
+    //Phần phương thức của create order
     //Tạo menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -286,7 +291,8 @@ public class Index extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void orderDialog(){
+    //tạo dialog create order
+    private void createOrderDialog(){
         //Chỉnh sửa dialog
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -301,14 +307,30 @@ public class Index extends AppCompatActivity {
         dialog.show();
     }
 
+    //tạo dialog cancel order
+    private void cancelOrderDialog(){
+        //Chỉnh sửa dialog
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setContentView(R.layout.dialog_cancel_order);
+
+        //Ánh xạ và thực hiện chức năng của dialog khi có sự kiện phù hợp
+        anhXaDialog(dialog);
+        thucHienDialog(dialog);
+
+        //Hiển thị dialog
+        dialog.show();
+    }
+
     //Sự kiện này tạo ra để phục vụ cho onOptionsItemSelected
     private void suKienChonItemMenu(int id){
         if(hoaDonVuaThem == null){
-            if(id == R.id.menuOrder){
-                orderDialog();
+            if(id == R.id.menuCreateOrder){
+                createOrderDialog();
             }
-            if(id == R.id.menuChildSettingDeliveryDate){
-
+            if(id == R.id.menuCancelOrder){
+                cancelOrderDialog();
             }
         }
     }
@@ -321,6 +343,9 @@ public class Index extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    //Các phương thức cần để thực hiện create order
+    //Lấy mã hóa đơn lớn nhất
     private void getMaHoaDonLonNhat(){
         //Lấy dữ liệu trên web về
         IMyAPI.iMyAPI.getMaxIdOrder().enqueue(new Callback<Integer>() {
@@ -341,6 +366,7 @@ public class Index extends AppCompatActivity {
         });
     }
 
+    //get tổng số lượng đơn chưa duyệt
     private void getTongSoOrderChuaDuyet(){
         //Lấy dữ liệu trên web về
         IMyAPI.iMyAPI.getTongSoLuongOrder().enqueue(new Callback<Integer>() {
@@ -361,6 +387,7 @@ public class Index extends AppCompatActivity {
         });
     }
 
+    //tạo hóa đơn
     private void createOrder(int idAcc, int ngayDuKien, int gioBatDauGiao, int gioKetThucGiao, int maHoaDon, int soLuongNhanVien){
         //Truyền dữ liệu từ view về các biến
         int phone = new Integer(edtPhoneOrder.getText().toString());
@@ -401,7 +428,7 @@ public class Index extends AppCompatActivity {
                 Toast.makeText(Index.this, "Xin bạn hãy nhập thông tin", Toast.LENGTH_SHORT).show();
             else{
                 if(hoaDonVuaThem == null){
-                    createOrder(1, 3, 8, 22, maHoaDonNgayDat, 30);
+                    createOrder(account_login.getId(), 5, 8, 22, maHoaDonNgayDat + 1, 30);
                     Toast.makeText(Index.this, "createOrder is Success" + hoaDonVuaThem.getDeliveryDate(), Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
@@ -413,5 +440,27 @@ public class Index extends AppCompatActivity {
         btnCancelOrder.setOnClickListener(v -> {
             dialog.dismiss();
         });
+    }
+
+    //Các phương thức cần cho cancel order
+    private void deleteOrder(){
+        IMyAPI.iMyAPI.deleteOrder(hoaDonVuaThem.getId()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(!response.isSuccessful())
+                    Toast.makeText(Index.this, "something went wrong at success", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(Index.this, response.body(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(Index.this, "Fail: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void thucHienCancelDialog(){
+
     }
 }

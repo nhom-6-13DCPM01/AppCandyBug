@@ -9,6 +9,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -40,7 +41,7 @@ public interface IMyAPI {
     @GET("api-searchProduct/{key}")
     Call<List<Product>> searchProduct(@Path("key") String key,@Query("page") int page);
 
-    //Phần của thịnh
+    //Phần của create order
     @GET("getMaxIdOrder")
     Call<Integer> getMaxIdOrder();
 
@@ -49,4 +50,8 @@ public interface IMyAPI {
 
     @POST("createOrder")
     Call<Order> createOrder(@Body Order order);
+
+    //Phần của delete hoặc cancel order
+    @DELETE("api/Order/{id}")
+    Call<String> deleteOrder(@Path("id") int id);
 }
