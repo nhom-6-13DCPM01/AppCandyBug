@@ -376,7 +376,7 @@ public class Index extends AppCompatActivity {
 
 
     //Các phương thức cần để thực hiện create order
-    //Lấy mã hóa đơn lớn nhất
+    //Lấy mã hóa đơn lớn nhất haha
     private void getMaHoaDonLonNhat(){
         //Lấy dữ liệu trên web về
         IMyAPI.iMyAPI.getMaxIdOrder().enqueue(new Callback<Integer>() {
