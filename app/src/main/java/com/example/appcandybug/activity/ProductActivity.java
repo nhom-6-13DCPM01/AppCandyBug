@@ -74,6 +74,7 @@ public class ProductActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         lv_Candy.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
