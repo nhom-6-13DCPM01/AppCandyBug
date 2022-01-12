@@ -5,9 +5,17 @@
     <string name="order">Đơn hàng</string>
     <string name="confirm">Xác nhận</string>
     <string name="cancel">Hủy</string>
-    <string name="order_info">Chi tiết</string>
+    <string name="detail">Chi tiết</string>
     <string name="shopping_cart">Giỏ hàng</string>
     <string name="name">Tên</string>
     <string name="date_create">Ngày tạo</string>
     <string name="cancel_order">Hủy đơn</string>
+    <string name="title_order_info">Thông tin đơn hàng</string>
+    <string name="total">Tổng tiền</string>
+    <string name="quantity">Số lượng</string>
+    <string name="buy">Mua</string>
+    <string name="notice_error_success">Có gì đó không ổn. Xin bạn hãy kiểm tra lại đường truyền</string>
+    <string name="notice_error_blank_edit_text">"Vui lòng, nhập đầy đủ thông tin "</string>
+    <string name="notice_error_have_order">Bạn đã có đơn hàng rồi. Cảm ơn</string>
+    <string name="notice_error_null">Đây là lỗi của chúng tôi. Bạn nên báo cáo lại và chúng tôi sẽ sửa lại trong thời gian sớm nhất. Cảm ơn</string>
 </resources>

@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -36,11 +37,16 @@ import com.example.appcandybug.adapter.ProductAdapter;
 import com.example.appcandybug.model.Account;
 import com.example.appcandybug.model.Category;
 import com.example.appcandybug.model.Order;
+import com.example.appcandybug.model.OrderInfo;
+import com.example.appcandybug.model.Product;
+import com.example.appcandybug.my_interface.IClickItemListener;
 import com.example.appcandybug.server.CheckConnection;
 import com.example.appcandybug.server.IMyAPI;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,9 +71,11 @@ public class Index extends AppCompatActivity {
     Account account_login;
     TextView txt_login,txt_email_login;
     SearchView search_view_index;
+    FloatingActionButton flABtnCart;
 
     //Thuộc tính cần cho phần tự động đặt ngày giao
-    private int soLuongDonTon, maHoaDonNgayDat;
+    private int soLuong;
+    private double tongTien;
     private Order hoaDonVuaThem = null;
 
     @Override
@@ -84,6 +92,7 @@ public class Index extends AppCompatActivity {
             catchOnitemListView();
             search();
             logout();
+            thucHienFloatingButon();
         }else {
             CheckConnection.ShowToast_Short(getApplicationContext(),"Hãy kết nối mạng");
             finish();
@@ -214,6 +223,7 @@ public class Index extends AppCompatActivity {
         txt_login = findViewById(R.id.txt_login);
         txt_email_login = findViewById(R.id.txt_email_login);
         search_view_index = findViewById(R.id.search_view_index);
+        flABtnCart = (FloatingActionButton) findViewById(R.id.floatingActionButtonCart);
     }
 
     private void actionBar(){
@@ -282,7 +292,16 @@ public class Index extends AppCompatActivity {
             public void onResponse(Call<List<com.example.appcandybug.model.Product>> call, Response<List<com.example.appcandybug.model.Product>> response) {
                 if(response.body()!=null){
                     listNewProduct = response.body();
-                    productAdapter = new ProductAdapter(getApplicationContext(),listNewProduct);
+                    productAdapter = new ProductAdapter(getApplicationContext(), listNewProduct, new IClickItemListener() {
+                        @Override
+                        public void onClickItemProduct(Product product) {
+                            if(hoaDonVuaThem != null){
+                                onClickItemProductIndex(product);
+                            }
+                            else
+                                Toast.makeText(Index.this, "Bạn chưa có đơn hàng hãy chọn dấu ba chấm dọc gốc trên bên phải để tạo", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     recyclerview_index.setAdapter(productAdapter);
                 }
             }
@@ -292,6 +311,103 @@ public class Index extends AppCompatActivity {
                 Log.d("onFailure: ",t.getMessage());
             }
         });
+    }
+
+    private void onClickItemProductIndex(Product product){
+        orderInfoDialog(product);
+
+        /*OrderInfo orderInfo = new OrderInfo(hoaDonVuaThem.getId(), product.getId(), )
+        IMyAPI.iMyAPI.addOrderInfo()*/
+    }
+
+    //Phần thuộc tính dialog thông tin order info
+    TextView txtTotal, txtQuantity;
+    NumberPicker npQuantity;
+    Button btnBuy, btnCancelOrderInfo;
+
+    private void anhXaDialogOrderInfo(Dialog dialog){
+        txtQuantity = (TextView)        dialog.findViewById(R.id.textViewQuantity);
+        txtTotal = (TextView)           dialog.findViewById(R.id.textViewTotal);
+        npQuantity = (NumberPicker)     dialog.findViewById(R.id.numberPickerQuantity);
+        btnBuy = (Button)               dialog.findViewById(R.id.buttonBuy);
+        btnCancelOrderInfo = (Button)   dialog.findViewById(R.id.buttonCancelOrderInfo);
+
+        npQuantity.setMinValue(1);
+        npQuantity.setMaxValue(10000);
+        npQuantity.setValue(1);
+    }
+
+    //tạo dialog create order
+    private void orderInfoDialog(Product product){
+        //Chỉnh sửa dialog
+        Dialog dialog = new Dialog(Index.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setContentView(R.layout.dialog_add_orderinfo);
+
+        //Ánh xạ và thực hiện chức năng của dialog khi có sự kiện phù hợp
+        anhXaDialogOrderInfo(dialog);
+        thucHienDialogOrderinfo(dialog, product);
+
+        //Hiển thị dialog
+        dialog.show();
+    }
+
+    private void thucHienDialogOrderinfo(Dialog dialog, Product product){
+        onChangeNumberPicker(product);
+        btnBuy.setOnClickListener(v -> {
+            addOrderInfo(product);
+            dialog.dismiss();
+        });
+        btnCancelOrderInfo.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+    }
+
+    private void addOrderInfo(Product product){
+        OrderInfo orderInfo = new OrderInfo(hoaDonVuaThem.getId(), product.getId(), soLuong, tongTien);
+        IMyAPI.iMyAPI.addOrderInfo(orderInfo).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(!response.isSuccessful())
+                    Toast.makeText(Index.this, getString(R.string.notice_error_success), Toast.LENGTH_SHORT).show();
+                if(response != null)
+                    Toast.makeText(Index.this, response.body(), Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(Index.this, getString(R.string.notice_error_null), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(Index.this, "Fail: " + t.getCause().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void onChangeNumberPicker(Product product){
+        String total = String.valueOf(txtTotal.getText()) + " ";
+        String quantity = String.valueOf(txtQuantity.getText()) + " ";
+        npQuantity.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                soLuong = newVal;
+                tongTien = tinhTongTien(product, newVal);
+                txtQuantity.setText(quantity.toString() + newVal);
+                txtTotal.setText(total.toString() + tinhTongTien(product, newVal));
+            }
+        });
+
+    }
+
+    private double tinhTongTien(Product product, int number){
+        double ketQua = 0;
+        if(product.getDiscount() == 0){
+            ketQua = product.getPrice() * number;
+        }
+        else{
+            ketQua = product.getPrice() * number * product.getDiscount();
+        }
+        return ketQua;
     }
 
     //Phần phương thức của create order
@@ -327,7 +443,7 @@ public class Index extends AppCompatActivity {
     EditText edtPhoneOrder, edtAdressOrder;
 
     //Phần ánh xạ của create order
-    private void anhXaDialog(Dialog dialog){
+    private void anhXaDialogCreateOrder(Dialog dialog){
         btnConfirmOrder = (Button) dialog.findViewById(R.id.buttonConfirmCreateOrder);
         btnCancelOrder = (Button) dialog.findViewById(R.id.buttonCancelCreateOrder);
         edtPhoneOrder = (EditText) dialog.findViewById(R.id.editTextPhone);
@@ -343,8 +459,8 @@ public class Index extends AppCompatActivity {
         dialog.setContentView(R.layout.dialog_order);
 
         //Ánh xạ và thực hiện chức năng của dialog khi có sự kiện phù hợp
-        anhXaDialog(dialog);
-        thucHienDialog(dialog);
+        anhXaDialogCreateOrder(dialog);
+        thucHienDialogCreateOrder(dialog);
 
         //Hiển thị dialog
         dialog.show();
@@ -365,7 +481,7 @@ public class Index extends AppCompatActivity {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
                 if(!response.isSuccessful()){
-                    Toast.makeText(Index.this, "Something went wrong in createOrder at isSuccess", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Index.this, getString(R.string.notice_error_success), Toast.LENGTH_SHORT).show();
                 }
 
                 if(response.body() != null){
@@ -374,7 +490,7 @@ public class Index extends AppCompatActivity {
                     Toast.makeText(Index.this, "Create success", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(Index.this, "Something went wrong in createOrder at respone null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Index.this, getString(R.string.notice_error_null), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -385,17 +501,17 @@ public class Index extends AppCompatActivity {
         });
     }
 
-    private void thucHienDialog(Dialog dialog) {
+    private void thucHienDialogCreateOrder(Dialog dialog) {
         btnConfirmOrder.setOnClickListener(v -> {
             if (edtPhoneOrder.getText().toString().isEmpty() && edtAdressOrder.getText().toString().isEmpty())
-                Toast.makeText(Index.this, "Xin bạn hãy nhập thông tin", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Index.this, getString(R.string.notice_error_blank_edit_text), Toast.LENGTH_SHORT).show();
             else{
                 if(hoaDonVuaThem == null){
                     createOrder(account_login.getId());
                     dialog.dismiss();
                 }
                 else
-                    Toast.makeText(Index.this, "Bạn đã có đơn hàng rồi. Hãy cứ mua sắm đi!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Index.this, getString(R.string.notice_error_have_order), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -441,11 +557,11 @@ public class Index extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful())
-                    Toast.makeText(Index.this, "something went wrong at success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Index.this, getString(R.string.notice_error_success), Toast.LENGTH_SHORT).show();
                 if(response != null)
                     Toast.makeText(Index.this, response.body(), Toast.LENGTH_SHORT).show();
                 else
-                    Toast.makeText(Index.this, "Something went wrong at null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Index.this, getString(R.string.notice_error_null), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -474,6 +590,20 @@ public class Index extends AppCompatActivity {
         });
         btnCancelCancelOrder.setOnClickListener(v -> {
             dialog.dismiss();
+        });
+    }
+
+    //Phần sự kiện floating button
+    private void thucHienFloatingButon(){
+        flABtnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Index.this, OrderInfoActivity.class);
+                Bundle bundel = new Bundle();
+                bundel.putSerializable("obj_order", hoaDonVuaThem);
+                intent.putExtra("bundle_order", bundel);
+                startActivity(intent);
+            }
         });
     }
 }

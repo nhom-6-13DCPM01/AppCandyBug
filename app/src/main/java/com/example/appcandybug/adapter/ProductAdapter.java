@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appcandybug.R;
 import com.example.appcandybug.model.Product;
+import com.example.appcandybug.my_interface.IClickItemListener;
 import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -21,10 +23,12 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ItemHolder> {
     Context context;
     List<Product> products;
+    IClickItemListener iClickItemListener;
 
-    public ProductAdapter(Context context, List<Product> products) {
+    public ProductAdapter(Context context, List<Product> products, IClickItemListener iClickItemListener) {
         this.context = context;
         this.products = products;
+        this.iClickItemListener = iClickItemListener;
     }
 
     @NonNull
@@ -46,6 +50,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ItemHold
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.imageProduct);
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iClickItemListener.onClickItemProduct(product);
+            }
+        });
     }
 
     @Override
@@ -54,6 +64,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ItemHold
     }
 
     public static class ItemHolder extends RecyclerView.ViewHolder{
+        private LinearLayout linearLayout;
         public ImageView imageProduct;
         public TextView txtNameProduct, txtPriceProduct;
 
@@ -62,6 +73,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ItemHold
             imageProduct = (ImageView) itemView.findViewById(R.id.imageview_Product);
             txtNameProduct = (TextView) itemView.findViewById(R.id.txt_NameProduct);
             txtPriceProduct = (TextView) itemView.findViewById(R.id.txt_PriceProduct);
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayoutProduct);
         }
     }
 

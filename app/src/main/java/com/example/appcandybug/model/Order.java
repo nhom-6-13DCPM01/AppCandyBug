@@ -2,9 +2,10 @@ package com.example.appcandybug.model;
 
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Order {
+public class Order implements Serializable {
     private int Id;
     private int IdAcc;
     private Date DateCreate;

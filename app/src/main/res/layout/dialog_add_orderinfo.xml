@@ -6,101 +6,82 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+        android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintGuide_percent="0.25" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
+        android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8" />
+        app:layout_constraintGuide_percent="0.75" />
 
     <TextView
-        android:id="@+id/textViewTitleCancel"
+        android:id="@+id/textViewOrderInfoTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/order"
+        android:text="@string/title_order_info"
         android:textColor="@color/black"
         android:textSize="40sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    <NumberPicker
+        android:id="@+id/numberPickerQuantity"
+        android:layout_width="68dp"
+        android:layout_height="136dp"
         android:textColor="@color/black"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewDateCreate"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTotal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewQuantity" />
 
     <TextView
-        android:id="@+id/textViewDateCreate"
-        android:layout_width="0dp"
+        android:id="@+id/textViewTotal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/total"
         android:textColor="@color/black"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewPhoneNumber"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+        app:layout_constraintTop_toBottomOf="@+id/numberPickerQuantity" />
 
     <TextView
-        android:id="@+id/textViewPhoneNumber"
-        android:layout_width="0dp"
+        android:id="@+id/textViewQuantity"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/quantity"
         android:textColor="@color/black"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewAddress"
+        app:layout_constraintBottom_toTopOf="@+id/numberPickerQuantity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDateCreate" />
-
-    <TextView
-        android:id="@+id/textViewAddress"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPhoneNumber" />
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
     <Button
-        android:id="@+id/buttonConfirmCancel"
+        android:id="@+id/buttonBuy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="24dp"
-        android:text="@string/confirm"
+        android:text="@string/buy"
         android:textColor="#FA61FF00"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonCancelCancel"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCancelOrderInfo"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <Button
-        android:id="@+id/buttonCancelCancel"
+        android:id="@+id/buttonCancelOrderInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -111,6 +92,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/buttonConfirmCancel"
-        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+        app:layout_constraintStart_toEndOf="@+id/buttonBuy"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 </androidx.constraintlayout.widget.ConstraintLayout>
