@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/shoppingCart"
         android:title="@string/shopping_cart"
-        android:orderInCategory="1"
+        android:orderInCategory="0"
         android:icon="@drawable/ic_shopping_cart"/>
     <item
-        android:title="Trang chính"
+        android:id="@+id/detailOrder"
+        android:title="@string/detail"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_view_details"/>
+    <item
+        android:id="@+id/homeOrderInfo"
+        android:title="@string/home"
         android:orderInCategory="2"
         android:icon="@drawable/ic_home"/>
-    <item
-        android:title="@string/detail"
-        android:orderInCategory="3"
-        android:icon="@drawable/ic_view_details"/>
 </menu>

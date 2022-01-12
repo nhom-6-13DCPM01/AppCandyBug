@@ -5,6 +5,7 @@ public class OrderInfo {
     private int IdProduct;
     private int Quantity;
     private double Total;
+    private String Image;
 
     public OrderInfo() {
     }
@@ -14,6 +15,20 @@ public class OrderInfo {
         IdProduct = idProduct;
         Quantity = quantity;
         Total = total;
+    }
+
+    public OrderInfo(int quantity, double total, String image) {
+        Quantity = quantity;
+        Total = total;
+        Image = image;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
     }
 
     public int getIdOrder() {

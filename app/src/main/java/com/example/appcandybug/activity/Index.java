@@ -1,6 +1,5 @@
 package com.example.appcandybug.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,12 +11,9 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -35,21 +31,17 @@ import com.example.appcandybug.R;
 import com.example.appcandybug.adapter.CategoryAdapter;
 import com.example.appcandybug.adapter.ProductAdapter;
 import com.example.appcandybug.model.Account;
+import com.example.appcandybug.model.Cart;
 import com.example.appcandybug.model.Category;
 import com.example.appcandybug.model.Order;
-import com.example.appcandybug.model.OrderInfo;
 import com.example.appcandybug.model.Product;
 import com.example.appcandybug.my_interface.IClickItemListener;
 import com.example.appcandybug.server.CheckConnection;
 import com.example.appcandybug.server.IMyAPI;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
-import java.io.StringWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -71,12 +63,12 @@ public class Index extends AppCompatActivity {
     Account account_login;
     TextView txt_login,txt_email_login;
     SearchView search_view_index;
-    FloatingActionButton flABtnCart;
 
-    //Thuộc tính cần cho phần tự động đặt ngày giao
+    //Thuộc tính khác
     private int soLuong;
     private double tongTien;
     private Order hoaDonVuaThem = null;
+    public static List<Cart> mangCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +84,6 @@ public class Index extends AppCompatActivity {
             catchOnitemListView();
             search();
             logout();
-            thucHienFloatingButon();
         }else {
             CheckConnection.ShowToast_Short(getApplicationContext(),"Hãy kết nối mạng");
             finish();
@@ -223,7 +214,11 @@ public class Index extends AppCompatActivity {
         txt_login = findViewById(R.id.txt_login);
         txt_email_login = findViewById(R.id.txt_email_login);
         search_view_index = findViewById(R.id.search_view_index);
-        flABtnCart = (FloatingActionButton) findViewById(R.id.floatingActionButtonCart);
+        if(mangCart != null){
+
+        }else{
+            mangCart = new ArrayList<>();
+        }
     }
 
     private void actionBar(){
@@ -295,11 +290,9 @@ public class Index extends AppCompatActivity {
                     productAdapter = new ProductAdapter(getApplicationContext(), listNewProduct, new IClickItemListener() {
                         @Override
                         public void onClickItemProduct(Product product) {
-                            if(hoaDonVuaThem != null){
-                                onClickItemProductIndex(product);
-                            }
-                            else
-                                Toast.makeText(Index.this, "Bạn chưa có đơn hàng hãy chọn dấu ba chấm dọc gốc trên bên phải để tạo", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), DetailProduct.class);
+                            intent.putExtra("sanPham", product);
+                            startActivity(intent);
                         }
                     });
                     recyclerview_index.setAdapter(productAdapter);
@@ -313,14 +306,31 @@ public class Index extends AppCompatActivity {
         });
     }
 
-    private void onClickItemProductIndex(Product product){
-        orderInfoDialog(product);
+    //Tạo menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_option, menu);
 
-        /*OrderInfo orderInfo = new OrderInfo(hoaDonVuaThem.getId(), product.getId(), )
-        IMyAPI.iMyAPI.addOrderInfo()*/
+        return super.onCreateOptionsMenu(menu);
     }
 
-    //Phần thuộc tính dialog thông tin order info
+    //Sự kiện này tạo ra để phục vụ cho onOptionsItemSelected
+    private void suKienChonItemMenu(int id){
+        if(id == R.id.menuCart){
+            Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    //Sư kiện chọn item menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        this.suKienChonItemMenu(item.getItemId());
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /*//Phần thuộc tính dialog thông tin order info
     TextView txtTotal, txtQuantity;
     NumberPicker npQuantity;
     Button btnBuy, btnCancelOrderInfo;
@@ -385,6 +395,7 @@ public class Index extends AppCompatActivity {
     }
 
     private void onChangeNumberPicker(Product product){
+        DecimalFormat format = new DecimalFormat("###,###,###");
         String total = String.valueOf(txtTotal.getText()) + " ";
         String quantity = String.valueOf(txtQuantity.getText()) + " ";
         npQuantity.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -393,7 +404,7 @@ public class Index extends AppCompatActivity {
                 soLuong = newVal;
                 tongTien = tinhTongTien(product, newVal);
                 txtQuantity.setText(quantity.toString() + newVal);
-                txtTotal.setText(total.toString() + tinhTongTien(product, newVal));
+                txtTotal.setText(total.toString() + format.format(tinhTongTien(product, newVal)));
             }
         });
 
@@ -411,31 +422,6 @@ public class Index extends AppCompatActivity {
     }
 
     //Phần phương thức của create order
-    //Tạo menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_option, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    //Sự kiện này tạo ra để phục vụ cho onOptionsItemSelected
-    private void suKienChonItemMenu(int id){
-        if(id == R.id.menuCreateOrder){
-            createOrderDialog();
-        }
-        if(id == R.id.menuCancelOrder){
-            cancelOrderDialog();
-        }
-    }
-
-    //Sư kiện chọn item menu
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        this.suKienChonItemMenu(item.getItemId());
-
-        return super.onOptionsItemSelected(item);
-    }
 
     //Phần thuộc tính của create order
     //View
@@ -591,19 +577,5 @@ public class Index extends AppCompatActivity {
         btnCancelCancelOrder.setOnClickListener(v -> {
             dialog.dismiss();
         });
-    }
-
-    //Phần sự kiện floating button
-    private void thucHienFloatingButon(){
-        flABtnCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Index.this, OrderInfoActivity.class);
-                Bundle bundel = new Bundle();
-                bundel.putSerializable("obj_order", hoaDonVuaThem);
-                intent.putExtra("bundle_order", bundel);
-                startActivity(intent);
-            }
-        });
-    }
+    }*/
 }

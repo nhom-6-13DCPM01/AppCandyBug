@@ -109,14 +109,4 @@
 
         </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButtonCart"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:clickable="true"
-        android:layout_margin="16dp"
-        app:fabSize="normal"
-
-        app:srcCompat="@drawable/ic_shopping_cart" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

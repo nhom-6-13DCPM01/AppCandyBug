@@ -18,4 +18,5 @@
     <string name="notice_error_blank_edit_text">"Vui lòng, nhập đầy đủ thông tin "</string>
     <string name="notice_error_have_order">Bạn đã có đơn hàng rồi. Cảm ơn</string>
     <string name="notice_error_null">Đây là lỗi của chúng tôi. Bạn nên báo cáo lại và chúng tôi sẽ sửa lại trong thời gian sớm nhất. Cảm ơn</string>
+    <string name="home">Trang chính</string>
 </resources>
