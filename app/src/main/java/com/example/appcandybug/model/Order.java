@@ -25,6 +25,23 @@ public class Order {
         this.SDT = SDT;
     }
 
+    public Order(int id, int idAcc, Date dateCreate, String status, String address, Date deliveryDate, int SDT) {
+        Id = id;
+        IdAcc = idAcc;
+        DateCreate = dateCreate;
+        Status = status;
+        Address = address;
+        DeliveryDate = deliveryDate;
+        this.SDT = SDT;
+    }
+
+    public Order(int idAcc, String status, String address, int SDT) {
+        IdAcc = idAcc;
+        Status = status;
+        Address = address;
+        this.SDT = SDT;
+    }
+
     public int getIdAcc() {
         return IdAcc;
     }

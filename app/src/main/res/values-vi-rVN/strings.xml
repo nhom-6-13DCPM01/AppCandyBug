@@ -9,4 +9,5 @@
     <string name="shopping_cart">Giỏ hàng</string>
     <string name="name">Tên</string>
     <string name="date_create">Ngày tạo</string>
+    <string name="cancel_order">Hủy đơn</string>
 </resources>
