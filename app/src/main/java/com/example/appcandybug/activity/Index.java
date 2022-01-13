@@ -60,7 +60,7 @@ public class Index extends AppCompatActivity {
     CategoryAdapter categoryAdapter;
     ProductAdapter productAdapter;
     LinearLayout layout_logout;
-    Account account_login;
+    public static Account account_login;
     TextView txt_login,txt_email_login;
     SearchView search_view_index;
 
@@ -419,72 +419,6 @@ public class Index extends AppCompatActivity {
             ketQua = product.getPrice() * number * product.getDiscount();
         }
         return ketQua;
-    }
-
-    //Phần phương thức của create order
-
-    //Phần thuộc tính của create order
-    //View
-    Button btnConfirmOrder, btnCancelOrder;
-    EditText edtPhoneOrder, edtAdressOrder;
-
-    //Phần ánh xạ của create order
-    private void anhXaDialogCreateOrder(Dialog dialog){
-        btnConfirmOrder = (Button) dialog.findViewById(R.id.buttonConfirmCreateOrder);
-        btnCancelOrder = (Button) dialog.findViewById(R.id.buttonCancelCreateOrder);
-        edtPhoneOrder = (EditText) dialog.findViewById(R.id.editTextPhone);
-        edtAdressOrder = (EditText) dialog.findViewById(R.id.editTextAddress);
-    }
-
-    //tạo dialog create order
-    private void createOrderDialog(){
-        //Chỉnh sửa dialog
-        Dialog dialog = new Dialog(Index.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setContentView(R.layout.dialog_order);
-
-        //Ánh xạ và thực hiện chức năng của dialog khi có sự kiện phù hợp
-        anhXaDialogCreateOrder(dialog);
-        thucHienDialogCreateOrder(dialog);
-
-        //Hiển thị dialog
-        dialog.show();
-    }
-
-    //Các phương thức cần để thực hiện create order
-    //tạo hóa đơn
-    private void createOrder(int idAcc){
-        //Truyền dữ liệu từ view về các biến
-        int phone = new Integer(edtPhoneOrder.getText().toString());
-        String adress = edtAdressOrder.getText().toString();
-
-        //Tạo đơn hàng
-        Order order = new Order(idAcc, "CHƯA DUYỆT", adress, phone);
-
-        //Đẩy dữ liệu lên web và lấy về
-        IMyAPI.iMyAPI.createOrder(order).enqueue(new Callback<Order>() {
-            @Override
-            public void onResponse(Call<Order> call, Response<Order> response) {
-                if(!response.isSuccessful()){
-                    Toast.makeText(Index.this, getString(R.string.notice_error_success), Toast.LENGTH_SHORT).show();
-                }
-
-                if(response.body() != null){
-                    Order order = response.body();
-                    hoaDonVuaThem = order;
-                    Toast.makeText(Index.this, "Create success", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(Index.this, getString(R.string.notice_error_null), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Order> call, Throwable t) {
-                Toast.makeText(Index.this, "Failed: " + t.getCause().toString(), Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     private void thucHienDialogCreateOrder(Dialog dialog) {

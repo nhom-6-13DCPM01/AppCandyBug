@@ -11,7 +11,7 @@
         android:id="@+id/toolBarChiTietSanPham"
         app:titleTextColor="@color/white"
         android:background="#107688"
-        app:title="chi tiết sản phẩm"
+        app:title="@string/detail_product"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
     </androidx.appcompat.widget.Toolbar>
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Tên sản phẩm"
+                android:text="@string/name_product"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@color/black"/>
@@ -55,7 +55,7 @@
                 android:id="@+id/buttonThemGioHangChiTietSanPham"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Thêm vào giỏ hàng"
+                android:text="@string/add_to_cart"
                 android:textColor="#AFAF1D"
                 android:textSize="15sp"/>
         </LinearLayout>
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Mô tả sản phẩm"
+            android:text="@string/descripte_product"
             android:textSize="30sp"
             android:textColor="#00FF7B"/>
         <ScrollView

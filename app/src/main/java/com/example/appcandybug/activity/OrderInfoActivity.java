@@ -33,7 +33,7 @@ public class OrderInfoActivity extends AppCompatActivity {
 
     private void thucHien (){
 
-        myBottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        /*myBottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
@@ -45,9 +45,9 @@ public class OrderInfoActivity extends AppCompatActivity {
                     startActivity(new Intent(OrderInfoActivity.this, Index.class));
                 return false;
             }
-        });
+        });*/
 
-        myViewPage.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        /*myViewPage.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
@@ -63,6 +63,6 @@ public class OrderInfoActivity extends AppCompatActivity {
                         break;
                 }
             }
-        });
+        });*/
     }
 }

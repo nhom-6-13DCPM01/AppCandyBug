@@ -94,7 +94,7 @@ public class DetailProduct extends AppCompatActivity {
 
     private void setValueNumberPicker() {
         numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(100);
+        numberPicker.setMaxValue(Quantity);
         numberPicker.setValue(1);
     }
 
