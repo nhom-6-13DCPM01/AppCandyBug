@@ -65,10 +65,8 @@ public class SearchPro extends AppCompatActivity {
 
     private void suKienChonItemMenu(int id){
         if(id == R.id.menuCart){
-            Log.d("Menu", "Thành công vô đây");
             Intent intent = new Intent(getApplicationContext(), CartActivity.class);
             startActivity(intent);
-            return;
         }
     }
 
@@ -106,7 +104,7 @@ public class SearchPro extends AppCompatActivity {
                                 @Override
                                 public void onClickItemProduct(Product product) {
                                     Intent intent = new Intent(getApplicationContext(),DetailProduct.class);
-                                    intent.putExtra("detailProduct",product);
+                                    intent.putExtra("sanPham",product);
                                     Toast.makeText(getApplicationContext(), product.getName(), Toast.LENGTH_SHORT).show();
                                     startActivity(intent);
                                 }
