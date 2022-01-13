@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.appcandybug.R;
-import com.example.appcandybug.model.Cart;
 import com.example.appcandybug.model.Order;
 import com.example.appcandybug.model.OrderInfo;
 import com.example.appcandybug.server.IMyAPI;
@@ -40,14 +39,13 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 thucHienCreateOrder();
-                startActivity(new Intent(getApplicationContext(), Index.class));
+                finish();
             }
         });
         btnCancelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(OrderActivity.this, CartActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(OrderActivity.this, CartActivity.class));
             }
         });
     }
@@ -113,9 +111,7 @@ public class OrderActivity extends AppCompatActivity {
                     Toast.makeText(OrderActivity.this, getString(R.string.notice_error_success), Toast.LENGTH_SHORT).show();
                 if(response != null) {
                     Toast.makeText(OrderActivity.this, response.body(), Toast.LENGTH_SHORT).show();
-                    for(int i = 0; i < Index.mangCart.size(); i++){
-                        Index.mangCart.remove(i);
-                    }
+                    Index.mangCart.clear();
                 }else
                     Toast.makeText(OrderActivity.this, getString(R.string.notice_error_null), Toast.LENGTH_SHORT).show();
             }

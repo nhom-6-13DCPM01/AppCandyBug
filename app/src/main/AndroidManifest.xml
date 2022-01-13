@@ -14,20 +14,27 @@
         android:theme="@style/Theme.AppCandyBug"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activity.OrderActivity"
+            android:name=".activity.MyOrder"
             android:exported="false" />
+        <activity
+            android:name=".activity.OrderActivity"
+            android:exported="false"
+            android:noHistory="true" />
         <activity
             android:name=".activity.CartActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
             android:name=".activity.SearchPro"
+            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".activity.Register"
             android:exported="false" />
         <activity
             android:name=".activity.DetailProduct"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
             android:name=".activity.ProductActivity"
             android:exported="false" />

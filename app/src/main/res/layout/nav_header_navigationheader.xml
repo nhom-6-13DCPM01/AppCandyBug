@@ -12,7 +12,10 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:orientation="vertical"
     android:gravity="bottom">
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,6 +23,16 @@
         app:srcCompat="@drawable/ic_user"
         android:contentDescription="@string/nav_header_desc"
         android:id="@+id/imageView" />
+    <ImageButton
+        android:id="@+id/btn_myOrder"
+       android:layout_marginLeft="20sp"
+        android:layout_gravity="center"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_cart">
+    </ImageButton>
+</LinearLayout>
+
 
     <TextView
         android:id="@+id/txt_login"
