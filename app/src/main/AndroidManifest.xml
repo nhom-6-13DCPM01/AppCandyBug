@@ -20,9 +20,6 @@
             android:name=".activity.CartActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.OrderInfoActivity"
-            android:exported="false" />
-        <activity
             android:name=".activity.SearchPro"
             android:exported="false" />
         <activity

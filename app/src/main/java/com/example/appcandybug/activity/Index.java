@@ -60,15 +60,12 @@ public class Index extends AppCompatActivity {
     CategoryAdapter categoryAdapter;
     ProductAdapter productAdapter;
     LinearLayout layout_logout;
-    public static Account account_login;
+    Account account_login;
     TextView txt_login,txt_email_login;
     SearchView search_view_index;
 
-    //Thuộc tính khác
-    private int soLuong;
-    private double tongTien;
-    private Order hoaDonVuaThem = null;
     public static List<Cart> mangCart;
+    public static int maTaiKhoan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +120,7 @@ public class Index extends AppCompatActivity {
         {
             txt_login.setText(account_login.getUsername());
             txt_email_login.setText(account_login.getEmail());
+            maTaiKhoan = account_login.getId();
         }
     }
 
@@ -329,187 +327,4 @@ public class Index extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    /*//Phần thuộc tính dialog thông tin order info
-    TextView txtTotal, txtQuantity;
-    NumberPicker npQuantity;
-    Button btnBuy, btnCancelOrderInfo;
-
-    private void anhXaDialogOrderInfo(Dialog dialog){
-        txtQuantity = (TextView)        dialog.findViewById(R.id.textViewQuantity);
-        txtTotal = (TextView)           dialog.findViewById(R.id.textViewTotal);
-        npQuantity = (NumberPicker)     dialog.findViewById(R.id.numberPickerQuantity);
-        btnBuy = (Button)               dialog.findViewById(R.id.buttonBuy);
-        btnCancelOrderInfo = (Button)   dialog.findViewById(R.id.buttonCancelOrderInfo);
-
-        npQuantity.setMinValue(1);
-        npQuantity.setMaxValue(10000);
-        npQuantity.setValue(1);
-    }
-
-    //tạo dialog create order
-    private void orderInfoDialog(Product product){
-        //Chỉnh sửa dialog
-        Dialog dialog = new Dialog(Index.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setContentView(R.layout.dialog_add_orderinfo);
-
-        //Ánh xạ và thực hiện chức năng của dialog khi có sự kiện phù hợp
-        anhXaDialogOrderInfo(dialog);
-        thucHienDialogOrderinfo(dialog, product);
-
-        //Hiển thị dialog
-        dialog.show();
-    }
-
-    private void thucHienDialogOrderinfo(Dialog dialog, Product product){
-        onChangeNumberPicker(product);
-        btnBuy.setOnClickListener(v -> {
-            addOrderInfo(product);
-            dialog.dismiss();
-        });
-        btnCancelOrderInfo.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
-    }
-
-    private void addOrderInfo(Product product){
-        OrderInfo orderInfo = new OrderInfo(hoaDonVuaThem.getId(), product.getId(), soLuong, tongTien);
-        IMyAPI.iMyAPI.addOrderInfo(orderInfo).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if(!response.isSuccessful())
-                    Toast.makeText(Index.this, getString(R.string.notice_error_success), Toast.LENGTH_SHORT).show();
-                if(response != null)
-                    Toast.makeText(Index.this, response.body(), Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(Index.this, getString(R.string.notice_error_null), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(Index.this, "Fail: " + t.getCause().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void onChangeNumberPicker(Product product){
-        DecimalFormat format = new DecimalFormat("###,###,###");
-        String total = String.valueOf(txtTotal.getText()) + " ";
-        String quantity = String.valueOf(txtQuantity.getText()) + " ";
-        npQuantity.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                soLuong = newVal;
-                tongTien = tinhTongTien(product, newVal);
-                txtQuantity.setText(quantity.toString() + newVal);
-                txtTotal.setText(total.toString() + format.format(tinhTongTien(product, newVal)));
-            }
-        });
-
-    }
-
-    private double tinhTongTien(Product product, int number){
-        double ketQua = 0;
-        if(product.getDiscount() == 0){
-            ketQua = product.getPrice() * number;
-        }
-        else{
-            ketQua = product.getPrice() * number * product.getDiscount();
-        }
-        return ketQua;
-    }
-
-    private void thucHienDialogCreateOrder(Dialog dialog) {
-        btnConfirmOrder.setOnClickListener(v -> {
-            if (edtPhoneOrder.getText().toString().isEmpty() && edtAdressOrder.getText().toString().isEmpty())
-                Toast.makeText(Index.this, getString(R.string.notice_error_blank_edit_text), Toast.LENGTH_SHORT).show();
-            else{
-                if(hoaDonVuaThem == null){
-                    createOrder(account_login.getId());
-                    dialog.dismiss();
-                }
-                else
-                    Toast.makeText(Index.this, getString(R.string.notice_error_have_order), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btnCancelOrder.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
-    }
-
-    //Phần thuộc tính của cancel order
-    //View
-    Button btnConfirmCancelOrder, btnCancelCancelOrder;
-    TextView txtName, txtDateCreate, txtPhone, txtAddress;
-
-    //Phần ánh xạ
-    private void anhXaDiaLogCancel(Dialog dialog){
-        btnConfirmCancelOrder = (Button) dialog.findViewById(R.id.buttonConfirmCancel);
-        btnCancelCancelOrder = (Button) dialog.findViewById(R.id.buttonCancelCancel);
-        txtName = (TextView) dialog.findViewById(R.id.textViewName);
-        txtDateCreate = (TextView) dialog.findViewById(R.id.textViewDateCreate);
-        txtPhone = (TextView) dialog.findViewById(R.id.textViewPhoneNumber);
-        txtAddress = (TextView) dialog.findViewById(R.id.textViewAddress);
-    }
-
-    //tạo dialog cancel order
-    private void cancelOrderDialog(){
-        //Chỉnh sửa dialog
-        Dialog dialog = new Dialog(Index.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setContentView(R.layout.dialog_cancel_order);
-
-        //Ánh xạ và thực hiện chức năng của dialog khi có sự kiện phù hợp
-        anhXaDiaLogCancel(dialog);
-        thucHienDialogCancel(dialog);
-
-        //Hiển thị dialog
-        dialog.show();
-    }
-
-    //Các phương thức cần cho cancel order
-    private void deleteOrder(){
-        IMyAPI.iMyAPI.deleteOrder(hoaDonVuaThem.getId()).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if(!response.isSuccessful())
-                    Toast.makeText(Index.this, getString(R.string.notice_error_success), Toast.LENGTH_SHORT).show();
-                if(response != null)
-                    Toast.makeText(Index.this, response.body(), Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(Index.this, getString(R.string.notice_error_null), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(Index.this, "Fail: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void hienThiThongTinXoa(){
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        if(hoaDonVuaThem != null && account_login != null){
-            txtName.setText(account_login.getDisplayName() + "");
-            txtDateCreate.setText(format.format(hoaDonVuaThem.getDateCreate()) + "");
-            txtAddress.setText(hoaDonVuaThem.getAddress() + "");
-            txtPhone.setText(hoaDonVuaThem.getSDT() + "");
-        }
-    }
-
-    private void thucHienDialogCancel(Dialog dialog){
-        hienThiThongTinXoa();
-        btnConfirmCancelOrder.setOnClickListener(v -> {
-            deleteOrder();
-            hoaDonVuaThem = null;
-            dialog.dismiss();
-        });
-        btnCancelCancelOrder.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
-    }*/
 }

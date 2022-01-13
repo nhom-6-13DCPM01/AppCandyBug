@@ -15,6 +15,9 @@ import com.example.appcandybug.model.Order;
 import com.example.appcandybug.model.OrderInfo;
 import com.example.appcandybug.server.IMyAPI;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,6 +25,7 @@ import retrofit2.Response;
 public class OrderActivity extends AppCompatActivity {
     Button btnConfirmOrder, btnCancelOrder;
     EditText edtPhoneOrder, edtAdressOrder;
+    private List<OrderInfo> orderInfoList;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +53,18 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void thucHienAddOrderInfo(int maHoaDon) {
+        orderInfoList = new ArrayList<>();
         for(int i = 0; i < Index.mangCart.size(); i++){
-            Cart cart = Index.mangCart.get(i);
-            addOrderInfo(cart, maHoaDon);
+            int maSanPham = Index.mangCart.get(i).getIdSP();
+            int soLuong = Index.mangCart.get(i).getSoLuongSP();
+            double tongTien = Index.mangCart.get(i).getGiaSP();
+            orderInfoList.add(new OrderInfo(maHoaDon, maSanPham, soLuong, tongTien));
         }
+        addOrderInfo(orderInfoList, maHoaDon);
     }
 
     private void thucHienCreateOrder() {
-        createOrder(Index.account_login.getId());
+        createOrder(Index.maTaiKhoan);
     }
 
     private void anhXa(){
@@ -97,16 +105,18 @@ public class OrderActivity extends AppCompatActivity {
         });
     }
 
-    private void addOrderInfo(Cart cart, int maHoaDon){
-        OrderInfo orderInfo = new OrderInfo(maHoaDon, cart.getIdSP(), cart.getSoLuongSP(), cart.getGiaSP());
-        IMyAPI.iMyAPI.addOrderInfo(orderInfo).enqueue(new Callback<String>() {
+    private void addOrderInfo(List<OrderInfo> orderInfoList, int maHoaDon){
+        IMyAPI.iMyAPI.addOrderInfo(orderInfoList).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful())
                     Toast.makeText(OrderActivity.this, getString(R.string.notice_error_success), Toast.LENGTH_SHORT).show();
-                if(response != null)
+                if(response != null) {
                     Toast.makeText(OrderActivity.this, response.body(), Toast.LENGTH_SHORT).show();
-                else
+                    for(int i = 0; i < Index.mangCart.size(); i++){
+                        Index.mangCart.remove(i);
+                    }
+                }else
                     Toast.makeText(OrderActivity.this, getString(R.string.notice_error_null), Toast.LENGTH_SHORT).show();
             }
 

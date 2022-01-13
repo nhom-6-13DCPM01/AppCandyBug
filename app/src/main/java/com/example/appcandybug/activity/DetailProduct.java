@@ -28,7 +28,7 @@ public class DetailProduct extends AppCompatActivity {
     NumberPicker numberPicker;
     Button btnDatMua;
 
-    private int soLuong = 0;
+    private int soLuong = 1;
     private int Id = 0;
     private String Name = "";
     private String Category = "";
@@ -69,9 +69,6 @@ public class DetailProduct extends AppCompatActivity {
                     for (int i = 0; i < Index.mangCart.size(); i++){
                         if(Index.mangCart.get(i).getIdSP() == Id){
                             Index.mangCart.get(i).setSoLuongSP(Index.mangCart.get(i).getSoLuongSP() + soLuong);
-                            if(Index.mangCart.get(i).getSoLuongSP() >= 10){
-                                Index.mangCart.get(i).setSoLuongSP(10);
-                            }
                             Index.mangCart.get(i).setGiaSP(Price * Index.mangCart.get(i).getSoLuongSP());
                             exist = true;
                         }

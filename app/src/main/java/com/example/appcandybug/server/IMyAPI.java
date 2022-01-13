@@ -58,5 +58,5 @@ public interface IMyAPI {
 
     //Phần thêm vào order info
     @POST("addOrderInfo")
-    Call<String> addOrderInfo(@Body OrderInfo orderInfo);
+    Call<String> addOrderInfo(@Body List<OrderInfo> orderInfoList);
 }
