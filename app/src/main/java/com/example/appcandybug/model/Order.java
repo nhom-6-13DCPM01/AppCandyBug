@@ -2,9 +2,10 @@ package com.example.appcandybug.model;
 
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Order {
+public class Order implements Serializable {
     private int Id;
     private int IdAcc;
     private Date DateCreate;
@@ -22,6 +23,23 @@ public class Order {
         this.Status = Status;
         this.Address = Address;
         this.DeliveryDate = DeliveryDate;
+        this.SDT = SDT;
+    }
+
+    public Order(int id, int idAcc, Date dateCreate, String status, String address, Date deliveryDate, int SDT) {
+        Id = id;
+        IdAcc = idAcc;
+        DateCreate = dateCreate;
+        Status = status;
+        Address = address;
+        DeliveryDate = deliveryDate;
+        this.SDT = SDT;
+    }
+
+    public Order(int idAcc, String status, String address, int SDT) {
+        IdAcc = idAcc;
+        Status = status;
+        Address = address;
         this.SDT = SDT;
     }
 

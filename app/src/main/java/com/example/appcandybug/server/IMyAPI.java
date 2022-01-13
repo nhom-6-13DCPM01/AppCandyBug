@@ -1,6 +1,7 @@
 package com.example.appcandybug.server;
 import com.example.appcandybug.model.Account;
 import com.example.appcandybug.model.Category;
+import com.example.appcandybug.model.OrderInfo;
 import com.example.appcandybug.model.Product;
 import com.example.appcandybug.model.Order;
 
@@ -54,4 +55,8 @@ public interface IMyAPI {
     //Phần của delete hoặc cancel order
     @DELETE("api/Order/{id}")
     Call<String> deleteOrder(@Path("id") int id);
+
+    //Phần thêm vào order info
+    @POST("addOrderInfo")
+    Call<String> addOrderInfo(@Body List<OrderInfo> orderInfoList);
 }
