@@ -1,6 +1,7 @@
 package com.example.appcandybug.server;
 import com.example.appcandybug.model.Account;
 import com.example.appcandybug.model.Category;
+import com.example.appcandybug.model.Mycart;
 import com.example.appcandybug.model.OrderInfo;
 import com.example.appcandybug.model.Product;
 import com.example.appcandybug.model.Order;
@@ -41,6 +42,9 @@ public interface IMyAPI {
 
     @GET("api-searchProduct/{key}")
     Call<List<Product>> searchProduct(@Path("key") String key,@Query("page") int page);
+
+    @GET("api-viewOrder/{idAcc}")
+    Call<List<Mycart>> viewOrder(@Path("idAcc") int idAcc);
 
     //Phần của create order
     @GET("getMaxIdOrder")

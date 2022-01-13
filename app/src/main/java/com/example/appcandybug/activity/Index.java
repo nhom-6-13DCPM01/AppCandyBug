@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -63,6 +64,7 @@ public class Index extends AppCompatActivity {
     Account account_login;
     TextView txt_login,txt_email_login;
     SearchView search_view_index;
+    ImageButton btn_myOrder;
 
     public static List<Cart> mangCart;
     public static int maTaiKhoan;
@@ -81,10 +83,23 @@ public class Index extends AppCompatActivity {
             catchOnitemListView();
             search();
             logout();
+            clickMyOrder();
         }else {
             CheckConnection.ShowToast_Short(getApplicationContext(),"Hãy kết nối mạng");
             finish();
         }
+    }
+
+    private void clickMyOrder() {
+        btn_myOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Index.this,MyOrder.class);
+                intent.putExtra("accountMyOrder",account_login);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void search() {
@@ -212,6 +227,7 @@ public class Index extends AppCompatActivity {
         txt_login = findViewById(R.id.txt_login);
         txt_email_login = findViewById(R.id.txt_email_login);
         search_view_index = findViewById(R.id.search_view_index);
+        btn_myOrder = findViewById(R.id.btn_myOrder);
         if(mangCart != null){
 
         }else{
