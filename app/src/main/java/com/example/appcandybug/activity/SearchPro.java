@@ -1,6 +1,7 @@
 package com.example.appcandybug.activity;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -9,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -40,7 +44,32 @@ public class SearchPro extends AppCompatActivity {
         setUpSearchview();
         checkKey();
         setBack();
+        actionToolBar();
+    }
 
+    private void actionToolBar() {
+        setSupportActionBar(toolbar_search);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_option, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        suKienChonItemMenu(item.getItemId());
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void suKienChonItemMenu(int id){
+        if(id == R.id.menuCart){
+            Log.d("Menu", "Thành công vô đây");
+            Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+            startActivity(intent);
+            return;
+        }
     }
 
     private void setBack() {

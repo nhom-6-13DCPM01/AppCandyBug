@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.appcandybug.R;
-import com.example.appcandybug.model.Cart;
 import com.example.appcandybug.model.Order;
 import com.example.appcandybug.model.OrderInfo;
 import com.example.appcandybug.server.IMyAPI;
@@ -46,8 +45,7 @@ public class OrderActivity extends AppCompatActivity {
         btnCancelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(OrderActivity.this, CartActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(OrderActivity.this, CartActivity.class));
             }
         });
     }
