@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -59,6 +61,25 @@ public class ProductActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_option, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        suKienChonItemMenu(item.getItemId());
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void suKienChonItemMenu(int id){
+        if(id == R.id.menuCart){
+            Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+            startActivity(intent);
+        }
+    }
+
     private void title() {
         setSupportActionBar(toolbar_Candy);
         String title= getIntent().getStringExtra("nameCate");
@@ -70,7 +91,7 @@ public class ProductActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(),DetailProduct.class);
-                intent.putExtra("detailProduct",list_Candy.get(position));
+                intent.putExtra("sanPham",list_Candy.get(position));
                 startActivity(intent);
             }
         });
@@ -101,7 +122,7 @@ public class ProductActivity extends AppCompatActivity {
                     for (com.example.appcandybug.model.Product pro: response.body()) {
                         list_Candy.add(pro);
                     }
-                    candyAdapter = new CandyAdapter(getApplicationContext(),list_Candy);
+                    candyAdapter = new CandyAdapter(getApplicationContext(), list_Candy);
                     lv_Candy.setAdapter(candyAdapter);
                 }else {
                     limitData = true;
@@ -136,7 +157,7 @@ public class ProductActivity extends AppCompatActivity {
         footerView = inflater.inflate(R.layout.progressbar,null);
         mHandler = new mHandler();
         list_Candy = new ArrayList<>();
-        candyAdapter = new CandyAdapter(getApplicationContext(),list_Candy);
+        candyAdapter = new CandyAdapter(getApplicationContext(), list_Candy);
         lv_Candy.setAdapter(candyAdapter);
     }
 
