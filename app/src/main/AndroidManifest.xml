@@ -26,6 +26,7 @@
             android:noHistory="true" />
         <activity
             android:name=".activity.SearchPro"
+            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".activity.Register"
