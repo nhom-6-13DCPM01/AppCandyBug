@@ -39,7 +39,7 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 thucHienCreateOrder();
-                startActivity(new Intent(getApplicationContext(), Index.class));
+                finish();
             }
         });
         btnCancelOrder.setOnClickListener(new View.OnClickListener() {
@@ -111,9 +111,7 @@ public class OrderActivity extends AppCompatActivity {
                     Toast.makeText(OrderActivity.this, getString(R.string.notice_error_success), Toast.LENGTH_SHORT).show();
                 if(response != null) {
                     Toast.makeText(OrderActivity.this, response.body(), Toast.LENGTH_SHORT).show();
-                    for(int i = 0; i < Index.mangCart.size(); i++){
-                        Index.mangCart.remove(i);
-                    }
+                    Index.mangCart.clear();
                 }else
                     Toast.makeText(OrderActivity.this, getString(R.string.notice_error_null), Toast.LENGTH_SHORT).show();
             }

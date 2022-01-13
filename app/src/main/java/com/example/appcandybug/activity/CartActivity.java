@@ -46,14 +46,14 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), OrderActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btnTiepTucMua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(Index.mangCart.size() > 0){
-                    Intent intent = new Intent(getApplicationContext(), Index.class);
-                    startActivity(intent);
+                    finish();
                 }else{
                     CheckConnection.ShowToast_Short(getApplicationContext(), getString(R.string.empty_cart));
                 }

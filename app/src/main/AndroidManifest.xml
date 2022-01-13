@@ -15,9 +15,11 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".activity.OrderActivity"
+            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".activity.CartActivity"
+            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".activity.SearchPro"
@@ -27,6 +29,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.DetailProduct"
+            android:noHistory="true"
             android:exported="false" />
         <activity
             android:name=".activity.ProductActivity"
